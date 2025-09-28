@@ -1,12 +1,5 @@
 import axios from "axios";
 
-// آدرس Strapi بر اساس محیط
-const STRAPI_URL =
-  process.env.NODE_ENV === "production"
-    ? process.env.NEXT_PUBLIC_STRAPI_URL // آدرس آنلاین Strapi
-    : "http://localhost:1337"; // لوکال
-
-
 // تنظیم پایه API Strapi
 const api = axios.create({
   baseURL: "http://localhost:1337/api",

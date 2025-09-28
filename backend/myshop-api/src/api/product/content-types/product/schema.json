@@ -14,13 +14,19 @@
     "name": {
       "type": "string"
     },
+    "slug": {
+      "type": "string"
+    },
     "price": {
       "type": "decimal"
     },
-    "description": {
-      "type": "string"
+    "discountPercent": {
+      "type": "decimal"
     },
-    "image": {
+    "discountEndDate": {
+      "type": "datetime"
+    },
+    "images": {
       "type": "media",
       "multiple": true,
       "allowedTypes": [
@@ -29,16 +35,6 @@
         "videos",
         "audios"
       ]
-    },
-    "slug": {
-      "type": "uid",
-      "targetField": "name"
-    },
-    "discountPercent": {
-      "type": "integer"
-    },
-    "discountEndDate": {
-      "type": "datetime"
     }
   }
 }

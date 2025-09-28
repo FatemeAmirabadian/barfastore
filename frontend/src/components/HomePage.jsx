@@ -10,7 +10,7 @@ import NewDiscounts from "./modules/NewDiscounts";
 
 const sections = [
   { Component: Trends, useCard: true },
-  // { Component: HeroSection, useCard: true },
+  { Component: HeroSection, useCard: true },
   { Component: Categories, useCard: true },
   { Component: NewProducts, useCard: true },
   { Component: NewDiscounts, useCard: true },
