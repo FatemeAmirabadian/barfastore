@@ -29,6 +29,16 @@
         "videos",
         "audios"
       ]
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "discountPercent": {
+      "type": "integer"
+    },
+    "discountEndDate": {
+      "type": "datetime"
     }
   }
 }
