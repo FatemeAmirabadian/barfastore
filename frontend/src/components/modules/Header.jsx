@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <>
       <TopBar />
-      <div className="bg-purple-100 p-2 md:px-8 flex items-center justify-center md:justify-between">
+      <div className="bg-purple-100 py-5 md:px-8 flex items-center justify-center md:justify-between">
         <Logo />
         <Navigation />
       </div>
