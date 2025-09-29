@@ -2,7 +2,8 @@ import { getProductBySlug } from "../../lib/api";
 import { getDiscountedPrice } from "../../lib/api";
 
 export default async function ProductDetailPage({ params }) {
-  const product = await getProductBySlug(params.slug);
+  const { slug } = params;
+  const product = await getProductBySlug(slug);
 
   const imageUrl =
     product.images?.[0]?.url || "https://via.placeholder.com/150";
@@ -26,13 +27,13 @@ export default async function ProductDetailPage({ params }) {
           <p className="text-gray-600 mb-4">{product.description}</p>
           <div className="min-h-[48px] flex flex-col justify-center items-center mb-2">
             {product.discountPercent > 0 &&
-            new Date(product.discountEndDate) >= new Date() ? (
+            new Date(product.discountEnd) >= new Date() ? (
               <>
                 <span className="text-gray-400 line-through text-sm">
                   {product.price} تومان
                 </span>
                 <span className="text-red-600 font-bold text-lg">
-                  {getDiscountedPrice(product)} تومان
+                  {getDiscountedPrice(product.price, product.discountPercent)} تومان
                 </span>
               </>
             ) : (
@@ -41,11 +42,6 @@ export default async function ProductDetailPage({ params }) {
               </span>
             )}
           </div>
-
-          <p className="text-sm text-gray-400 mb-6">
-            آخرین بروزرسانی:{" "}
-            {new Date(product.updatedAt).toLocaleDateString("fa-IR")}
-          </p>
 
           <button className="bg-purple-500 text-white px-6 py-2 rounded-lg hover:bg-purple-600 transition">
             افزودن به سبد خرید
