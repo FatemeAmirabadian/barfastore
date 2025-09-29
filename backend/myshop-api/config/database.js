@@ -54,7 +54,7 @@ module.exports = ({ env }) => {
         //   rejectUnauthorized: env.bool(false),
         // },
         connectionString: databaseURL,
-        ssl: ssl,
+        ssl: ssl || undefined,
 
         schema: env("DATABASE_SCHEMA", "public"),
       },
