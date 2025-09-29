@@ -2,7 +2,9 @@ import axios from "axios";
 
 // تنظیم پایه API Strapi
 const api = axios.create({
-  baseURL: "http://localhost:1337/api",
+  baseURL:   process.env.NODE_ENV === "production"
+  ? "https://barfastore.onrender.com/api"
+  : "http://localhost:1337/api"
 });
 
 // گرفتن همه محصولات
