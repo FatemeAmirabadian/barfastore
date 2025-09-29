@@ -1,5 +1,5 @@
 import { getProductBySlug } from "../../lib/api";
-import { getDiscountedPrice } from "../../lib/getDiscountedPrice";
+import { getDiscountedPrice } from "../../lib/api";
 
 export default async function ProductDetailPage({ params }) {
   const product = await getProductBySlug(params.slug);
