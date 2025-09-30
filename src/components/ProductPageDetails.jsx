@@ -1,5 +1,5 @@
-import { getProductBySlug } from "../../lib/api";
-import { getDiscountedPrice } from "../../lib/api";
+import { getProductBySlug } from "../../lib/helpers";
+import { getDiscountedPrice } from "../../lib/helpers";
 
 export default async function ProductDetailPage({ params }) {
   const { slug } = params;
@@ -25,6 +25,7 @@ export default async function ProductDetailPage({ params }) {
         <div>
           <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
           <p className="text-gray-600 mb-4">{product.description}</p>
+          <p className="text-gray-600 mb-4">{product.category.name}</p>
           <div className="min-h-[48px] flex flex-col justify-center items-center mb-2">
             {product.discountPercent > 0 &&
             new Date(product.discountEnd) >= new Date() ? (
@@ -33,7 +34,8 @@ export default async function ProductDetailPage({ params }) {
                   {product.price} تومان
                 </span>
                 <span className="text-red-600 font-bold text-lg">
-                  {getDiscountedPrice(product.price, product.discountPercent)} تومان
+                  {getDiscountedPrice(product.price, product.discountPercent)}{" "}
+                  تومان
                 </span>
               </>
             ) : (

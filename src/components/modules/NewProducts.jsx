@@ -1,29 +1,14 @@
-import { getSliceNewProduct } from "../../../lib/api";
-import ProductCard from "./ProductCard";
-import SectionHeader from "./SectionHeader";
+import { getSliceNewProducts } from "../../../lib/helpers";
+import NewProductsGrid from "./NewProductsGrid";
 
-export default async function ProductsPage() {
-  const products = (await getSliceNewProduct()) || [];
+export default async function NewProductsSection() {
+  const products = (await getSliceNewProducts()) || [];
 
   return (
-    <>
-      <SectionHeader
-        title="جدیدترین محصولات"
-        linkHref="/products"
-      />
-      {/* کانتینر اسکرول */}
-      <div className="overflow-x-auto" style={{ direction: "rtl" }}>
-        <div className="flex gap-4 sm:grid sm:grid-cols-4 xl:grid-cols-5 sm:gap-6">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="flex-shrink-0 sm:flex-shrink sm:w-auto"
-            >
-              <ProductCard key={product.id} product={product} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
+    <NewProductsGrid
+      title="جدیدترین محصولات"
+      linkHref="/products"
+      products={products}
+    />
   );
 }

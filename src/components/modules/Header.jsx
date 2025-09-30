@@ -1,7 +1,7 @@
 import React from "react";
-import Logo from "./Logo";
+import Logo from "../elements/Logo";
 import Navigation from "./Navigation";
-import TopBar from "./TopBar";
+import TopBar from "../elements/TopBar";
 
 const Header = () => {
   return (
