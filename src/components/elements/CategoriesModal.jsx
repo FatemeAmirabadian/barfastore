@@ -3,7 +3,7 @@ import Modal from "./Modal";
 
 const CategoriesModal = ({ isOpen, onClose }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="دسته‌بندی‌ها" height="1/2">
+    <Modal isOpen={isOpen} onClose={onClose} height="1/2">
       <ul className="space-y-2 text-right">
         <li className="p-2 border rounded">دفتر</li>
         <li className="p-2 border rounded">خودکار</li>
