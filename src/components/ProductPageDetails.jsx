@@ -10,13 +10,11 @@ import Link from "next/link";
 export default async function ProductDetailPage({ params }) {
   const { slug } = params;
   const product = await getProductBySlug(slug);
-
   const imageUrl =
     product.images?.[0]?.url || "https://via.placeholder.com/150";
   if (!product) {
     return <p className="text-center mt-10">محصول یافت نشد</p>;
   }
-
   const hasDiscount =
     product.discountPercent > 0 &&
     (!product.discountEnd || new Date(product.discountEnd) >= new Date());
