@@ -4,10 +4,12 @@ import ColorSelector from "../elements/ColorSelector";
 import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
 import FavoriteButton from "../elements/FavoriteButton";
 import toast from "react-hot-toast";
-import { products } from "../../../data/products";
+import { useCartStore } from "../../../store/cartStore";
 
 export default function ProductActions({ product }) {
-  const [selectedColor, setSelectedColor] = useState([]);
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const [selectedColor, setSelectedColor] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [colorSelectedSuccess, setColorSelectedSuccess] = useState(false);
@@ -17,19 +19,25 @@ export default function ProductActions({ product }) {
 
   const finalPrice = hasDiscount
     ? getDiscountedPrice(product.price, product.discountPercent)
-    : products.price;
+    : product.price;
 
   const handleAddToCart = async () => {
-    if (selectedColor.length === 0) return;
+    if (!selectedColor) return;
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsLoading(false);
+    addToCart({
+      ...product,
+      selectedColor,
+      finalPrice,
+      quantity: 1,
+    });
     toast.success("محصول به سبد خرید اضافه شد", {
       style: {
         background: "lightgreen",
         color: "white",
-        marginBottom:"20px",
-        marginLeft:"20px",
+        marginBottom: "20px",
+        marginLeft: "20px",
       },
       duration: 1500,
     });
@@ -39,9 +47,9 @@ export default function ProductActions({ product }) {
     setIsWishlisted((prev) => !prev);
   };
 
-  const handleColorChange = (colors) => {
-    setSelectedColor(colors);
-    setColorSelectedSuccess(colors.length > 0);
+  const handleColorChange = (color) => {
+    setSelectedColor(color);
+    setColorSelectedSuccess(!color);
   };
 
   return (
@@ -60,7 +68,7 @@ export default function ProductActions({ product }) {
       </div>
 
       {/* انتخاب رنگ */}
-      {product.colors?.length > 0 && (
+      {product.colors && (
         <>
           <ColorSelector
             colors={product.colors}
@@ -95,14 +103,14 @@ export default function ProductActions({ product }) {
 
         <button
           onClick={handleAddToCart}
-          disabled={isLoading || selectedColor.length === 0}
+          disabled={isLoading || !selectedColor}
           className={`rounded-lg text-white transition text-md md:text-xl p-2 ${
-            selectedColor.length === 0
+            !selectedColor
               ? "bg-purple-300 cursor-not-allowed"
               : "bg-purple-500 hover:bg-purple-600"
           }`}
         >
-          {isLoading ? "در حال افزودن..." : "افزودن به سبد خرید"}
+          افزودن به سبد خرید
         </button>
       </div>
     </div>

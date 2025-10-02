@@ -11,11 +11,11 @@ import {
 } from "react-icons/sl";
 import CategoriesModal from "../elements/CategoriesModal";
 import SearchModal from "../elements/SearchModal";
+import { useCartStore } from "../../../store/cartStore";
 
 const MobileNavigationBar = () => {
   const pathname = usePathname();
   const [openModal, setOpenModal] = useState(null); // 'search' | 'categories' | null
-
   const navItems = [
     { id: "profile", label: "پروفایل", icon: <SlUser />, path: "/profile" },
     { id: "cart", label: "سبد خرید", icon: <SlBasket />, path: "/cart" },
@@ -23,6 +23,17 @@ const MobileNavigationBar = () => {
     { id: "categories", label: "دسته بندی", icon: <SlFolder /> },
     { id: "home", label: "خانه", icon: <SlHome />, path: "/" },
   ];
+  const { cart } = useCartStore();
+  // 🛒 محاسبه تعداد کل آیتم‌های کارت
+  const totalQuantity = cart.reduce((acc, product) => {
+    return (
+      acc +
+      Object.values(product.colorQuantities || {}).reduce(
+        (sum, qty) => sum + qty,
+        0
+      )
+    );
+  }, 0);
 
   return (
     <>
@@ -67,6 +78,12 @@ const MobileNavigationBar = () => {
               >
                 {item.icon}
               </span>
+              {/* 🔢 نشانگر تعداد روی آیکن سبد خرید */}
+              {item.id === "cart" && totalQuantity > 0 && (
+                <span className="absolute bg-red-500 text-white text-xs px-1 rounded-full">
+                  {totalQuantity}
+                </span>
+              )}
               <span
                 className={`${isActive ? "text-purple-600" : "text-gray-500"}`}
               >
