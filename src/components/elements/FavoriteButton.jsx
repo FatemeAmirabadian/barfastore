@@ -1,17 +1,13 @@
-"use client";
-
-import { useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
-export default function HeartButton() {
-  const [liked, setLiked] = useState(false);
+export default function FavoriteButton({ isWishlisted, onToggle }) {
 
   return (
     <button
-      onClick={() => setLiked(!liked)}
+      onClick={() => onToggle(!isWishlisted)}
       className="text-2xl transition-colors"
     >
-      {liked ? (
+      {isWishlisted ? (
         <FaHeart className="text-red-500" />
       ) : (
         <FaRegHeart className="text-red-500" />

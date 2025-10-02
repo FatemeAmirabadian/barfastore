@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
               <span className="text-gray-400 text-xs sm:tex-sm"> تومان</span>
             </div>
           ) : (
-            <span className="text-purple-700 font-semibold">
+            <span className="text-purple-500 font-semibold">
               {product.price} تومان
             </span>
           )}

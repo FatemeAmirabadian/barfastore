@@ -7,7 +7,7 @@ export default function ProductTabs({ product }) {
   const [activeTab, setActiveTab] = useState("specs");
 
   return (
-    <div className="mt-4 border-b border-gray-200">
+    <div className="bg-white rounded-xl mt-4 p-4 border-b border-gray-200  max-w-7xl mx-auto min-h-[40vh] h-fit">
       {/* تب‌ها */}
       <div className="flex flex-row-reverse">
         <button

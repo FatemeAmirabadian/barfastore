@@ -2,7 +2,9 @@
 
 export default function ProductSpecs({ specs }) {
   if (!specs || Object.keys(specs).length === 0) {
-    return <p className="text-gray-500">هیچ ویژگی برای این محصول موجود نیست.</p>;
+    return (
+      <p className="text-gray-500">هیچ ویژگی برای این محصول موجود نیست.</p>
+    );
   }
 
   return (
@@ -12,10 +14,10 @@ export default function ProductSpecs({ specs }) {
           {Object.entries(specs).map(([key, value], idx) => (
             <tr
               key={idx}
-              className={`${idx % 2 === 0 ?   "bg-gray-100" :"bg-white"}`}
+              className={`${idx % 2 === 0 ? "bg-gray-100" : "bg-white"}`}
             >
               <td className="p-2 text-gray-700 text-right">{value}</td>
-              <td className="p-2 font-medium text-right">{key}</td>
+              <td className="p-2 font-medium text-right w-[20vw]  border-l border-gray-200">{key}</td>
             </tr>
           ))}
         </tbody>
