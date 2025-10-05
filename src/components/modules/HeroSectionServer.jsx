@@ -9,7 +9,7 @@ const images = [
 
 export default function HeroSectionServer({ current }) {
   return (
-    <div className="w-full h-[50vh] sm:h-[75vh] md:h-screen overflow-hidden rounded-xl shadow-lg relative">
+    <div className="w-full h-[40vh] sm:h-[50vh] md:h-[60vh] overflow-hidden rounded-xl shadow-lg relative">
       <Image
         src={images[current]}
         alt={`Slide ${current + 1}`}

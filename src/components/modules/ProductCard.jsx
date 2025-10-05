@@ -12,9 +12,9 @@ export default function ProductCard({ product }) {
 
   return (
     <Link href={`/products/${product.slug}`}>
-      <div className="overflow-hidden hover:shadow-lg transition flex flex-col h-[60vh]">
+      <div className="overflow-hidden hover:shadow-lg transition flex flex-col rounded-md h-[30vh] sm:h-[40vh] md:h-[50vh]">
         {/* بلوک عکس - 90٪ کارت */}
-        <div className="relative w-full h-[calc(80/100*100vh)]">
+        <div className="relative w-full h-4/5">
           <Image
             src={imageUrl}
             alt={product.name}
@@ -31,7 +31,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* بلوک نوشته - 10٪ پایین کارت */}
-        <div className="flex flex-row justify-between items-center p-1 text-center h-[calc(20/100*100vh)]">
+        <div className="flex flex-row justify-between items-center p-1 text-center h-1/5">
           <h3 className="text-sm sm:text-md font-medium line-clamp-1">
             {product.name}
           </h3>

@@ -13,7 +13,7 @@ export default function ArticlesPage() {
             className="block border rounded-lg overflow-hidden hover:shadow-lg transition"
           >
             {/* تصویر */}
-            <div className="relative w-full aspect-[4/3]">
+            <div className="relative w-full aspect-[z]">
               <Image
                 src={article.image || "/placeholder.png"}
                 alt={article.title}

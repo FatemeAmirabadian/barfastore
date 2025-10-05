@@ -44,7 +44,7 @@ export default function CartPage() {
                 </span>
                 <span>هزینه ارسال</span>
               </div>
-              <div className="border-t border-gray-200 mt-10 flex justify-between font-bold text-purple-700">
+              <div className="border-t border-gray-200 mt-10 flex justify-between font-bold text-blue-700">
                 <span className="flex flex-row-reverse">
                   {` ${formatPriceToFarsi(payable)}`}
                   <span className="px-1">تومان</span>
@@ -52,7 +52,7 @@ export default function CartPage() {
                 <span>مبلغ نهایی</span>
               </div>
             </div>
-            <button className="bg-purple-500 w-full text-white rounded-xl p-2 m-3 mx-auto hover:bg-purple-600 transition">
+            <button className="bg-blue-500 w-full text-white rounded-xl p-2 m-3 mx-auto hover:bg-blue-600 transition">
               تکمیل خرید
             </button>
           </div>

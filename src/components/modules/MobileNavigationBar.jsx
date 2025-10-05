@@ -50,14 +50,14 @@ const MobileNavigationBar = () => {
               >
                 <span
                   className={`text-xl ${
-                    isActive ? "text-purple-600" : "text-gray-500"
+                    isActive ? "text-blue-600" : "text-gray-500"
                   }`}
                 >
                   {item.icon}
                 </span>
                 <span
                   className={`${
-                    isActive ? "text-purple-600" : "text-gray-500"
+                    isActive ? "text-blue-600" : "text-gray-500"
                   }`}
                 >
                   {item.label}
@@ -73,7 +73,7 @@ const MobileNavigationBar = () => {
             >
               <span
                 className={`text-xl relative ${
-                  isActive ? "text-purple-600" : "text-gray-500"
+                  isActive ? "text-blue-600" : "text-gray-500"
                 }`}
               >
                 {item.icon}
@@ -86,7 +86,7 @@ const MobileNavigationBar = () => {
               </span>
 
               <span
-                className={`${isActive ? "text-purple-600" : "text-gray-500"}`}
+                className={`${isActive ? "text-blue-600" : "text-gray-500"}`}
               >
                 {item.label}
               </span>
