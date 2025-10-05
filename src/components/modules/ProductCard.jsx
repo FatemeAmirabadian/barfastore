@@ -38,10 +38,12 @@ export default function ProductCard({ product }) {
           {hasDiscount ? (
             <div className="grid grid-cols">
               <span className="block text-gray-400 line-through text-xs sm:tex-sm">
-                {product.price}
+                {formatPriceToFarsi(product.price)}
               </span>
               <span className="text-purple-500 font-bold text-sm sm:tex-md">
-                {getDiscountedPrice(product.price, product.discountPercent)}
+                {formatPriceToFarsi(
+                  getDiscountedPrice(product.price, product.discountPercent)
+                )}
               </span>
               <span className="text-gray-400 text-xs sm:tex-sm"> تومان</span>
             </div>

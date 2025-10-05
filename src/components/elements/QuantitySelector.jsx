@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { formatPriceToFarsi } from "../../../lib/helpers";
 
 export default function QuantitySelector({ quantity, onIncrease, onDecrease }) {
   return (
@@ -9,7 +10,7 @@ export default function QuantitySelector({ quantity, onIncrease, onDecrease }) {
       >
         -
       </button>
-      <span>{quantity}</span>
+      <span>{formatPriceToFarsi(quantity)}</span>
       <button
         onClick={onIncrease}
       >

@@ -7,14 +7,14 @@ import { useCartStore } from "../../store/cartStore";
 
 export default function CartPage() {
   const { cart } = useCartStore();
-   const totalPrice = cart.reduce((sum, product) => {
+  const totalPrice = cart.reduce((sum, product) => {
     const productTotal = Object.values(product.colorQuantities).reduce(
       (qtySum, qty) => qtySum + qty * product.price,
       0
     );
     return sum + productTotal;
   }, 0);
-  
+
   const shipping = 70000;
   const payable = totalPrice + shipping;
 
@@ -30,15 +30,25 @@ export default function CartPage() {
             <h2 className="text-xl font-semibold mb-3">فاکتور خرید</h2>
             <div className="p-3">
               <div className="flex justify-between">
-                <span>{formatPriceToFarsi(totalPrice)} تومان</span>
+                <span className="flex flex-row-reverse">
+                  {formatPriceToFarsi(totalPrice)}{" "}
+                  <span className="px-1">تومان</span>
+                </span>
                 <span>جمع محصولات</span>
               </div>
               <div className="flex justify-between">
-                <span>{formatPriceToFarsi(shipping)} تومان</span>
+                {" "}
+                <span className="flex flex-row-reverse">
+                  {formatPriceToFarsi(shipping)}{" "}
+                  <span className="px-1">تومان</span>
+                </span>
                 <span>هزینه ارسال</span>
               </div>
               <div className="border-t border-gray-200 mt-10 flex justify-between font-bold text-purple-700">
-                <span>{`تومان ${formatPriceToFarsi(payable)}`}</span>
+                <span className="flex flex-row-reverse">
+                  {` ${formatPriceToFarsi(payable)}`}
+                  <span className="px-1">تومان</span>
+                </span>
                 <span>مبلغ نهایی</span>
               </div>
             </div>
