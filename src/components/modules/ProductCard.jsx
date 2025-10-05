@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Link href={`/products/${product.slug}`}>
-      <div className="overflow-hidden hover:shadow-lg transition flex flex-col rounded-md h-[40vh] sm:h-[50vh] md:h-[55vh]">
+      <div className="overflow-hidden hover:shadow-lg transition flex flex-col rounded-md h-[50vh] sm:h-[55vh] md:h-[60vh]">
         {/* بلوک عکس - 90٪ کارت */}
         <div className="relative w-full h-4/5">
           <Image
@@ -31,25 +31,25 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* بلوک نوشته - 10٪ پایین کارت */}
-        <div className="flex flex-row justify-between items-center p-1 text-center h-1/5">
+        <div className="flex flex-row justify-between items-center p-1 text-center h-1/4">
           <h3 className="text-sm sm:text-md font-medium line-clamp-1">
             {product.name}
           </h3>
           {hasDiscount ? (
             <div className="grid grid-cols">
-              <span className="block text-gray-400 line-through text-xs sm:tex-sm">
+              <span className="block text-gray-400 line-through text-xs sm:tex-md">
                 {formatPriceToFarsi(product.price)}
               </span>
-              <span className="text-blue-500 font-bold text-sm sm:tex-md">
+              <span className="text-blue-500 font-semibold">
                 {formatPriceToFarsi(
                   getDiscountedPrice(product.price, product.discountPercent)
                 )}
               </span>
-              <span className="text-gray-400 text-xs sm:tex-sm"> تومان</span>
+              <span className="text-gray-400"> تومان</span>
             </div>
           ) : (
             <span className="text-blue-500 font-semibold">
-              {product.price} تومان
+              {formatPriceToFarsi(product.price)} تومان
             </span>
           )}
         </div>
