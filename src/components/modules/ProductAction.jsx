@@ -3,14 +3,13 @@ import { useState } from "react";
 import ColorSelector from "../elements/ColorSelector";
 import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
 import FavoriteButton from "../elements/FavoriteButton";
-import toast from "react-hot-toast";
 import { useCartStore } from "../../../store/cartStore";
+import { FailAlrt, SuccessAlrt } from "../elements/Alerts";
 
 export default function ProductActions({ product }) {
   const addToCart = useCartStore((state) => state.addToCart);
 
   const [selectedColor, setSelectedColor] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [colorSelectedSuccess, setColorSelectedSuccess] = useState(false);
   const hasDiscount =
@@ -22,25 +21,9 @@ export default function ProductActions({ product }) {
     : product.price;
 
   const handleAddToCart = async () => {
-    if (!selectedColor) return;
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
-    addToCart({
-      ...product,
-      selectedColor,
-      finalPrice,
-      quantity: 1,
-    });
-    toast.success("محصول به سبد خرید اضافه شد", {
-      style: {
-        background: "lightgreen",
-        color: "white",
-        marginBottom: "20px",
-        marginLeft: "20px",
-      },
-      duration: 1500,
-    });
+    if (!selectedColor) return FailAlrt("لطفا حداقل یک رنگ را انتخاب کنید");
+    addToCart(product, selectedColor, finalPrice);
+    SuccessAlrt("محصول به سبد خرید اضافه شد");
   };
 
   const toggleWishlist = () => {
@@ -69,21 +52,11 @@ export default function ProductActions({ product }) {
 
       {/* انتخاب رنگ */}
       {product.colors && (
-        <>
-          <ColorSelector
-            colors={product.colors}
-            selectedColors={selectedColor}
-            onChange={handleColorChange}
-          />
-          {/* پیام موفقیت انتخاب رنگ */}
-          {colorSelectedSuccess ? (
-            ""
-          ) : (
-            <p className="text-red-500 text-sm mt-1 text-right">
-              لطفا حداقل یک رنگ انتخاب کنید
-            </p>
-          )}
-        </>
+        <ColorSelector
+          colors={product.colors}
+          selectedColors={selectedColor}
+          onChange={handleColorChange}
+        />
       )}
 
       {/* قیمت و افزودن به سبد خرید */}
@@ -103,7 +76,6 @@ export default function ProductActions({ product }) {
 
         <button
           onClick={handleAddToCart}
-          disabled={isLoading || !selectedColor}
           className={`rounded-lg text-white transition text-md md:text-xl p-2 ${
             !selectedColor
               ? "bg-purple-300 cursor-not-allowed"

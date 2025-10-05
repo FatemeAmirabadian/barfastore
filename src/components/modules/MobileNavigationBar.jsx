@@ -46,7 +46,7 @@ const MobileNavigationBar = () => {
               <button
                 key={item.id}
                 onClick={() => setOpenModal(item.id)}
-                className="flex flex-col items-center text-sm"
+                className="flex flex-col items-center text-sm relative"
               >
                 <span
                   className={`text-xl ${
@@ -69,21 +69,22 @@ const MobileNavigationBar = () => {
             <Link
               key={item.id}
               href={item.path}
-              className="flex flex-col items-center text-sm"
+              className="flex flex-col items-center text-sm relative"
             >
               <span
-                className={`text-xl ${
+                className={`text-xl relative ${
                   isActive ? "text-purple-600" : "text-gray-500"
                 }`}
               >
                 {item.icon}
+                {/* 🔢 نشانگر تعداد روی آیکن سبد خرید */}
+                {item.id === "cart" && totalQuantity > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                    {totalQuantity}
+                  </span>
+                )}
               </span>
-              {/* 🔢 نشانگر تعداد روی آیکن سبد خرید */}
-              {item.id === "cart" && totalQuantity > 0 && (
-                <span className="absolute bg-red-500 text-white text-xs px-1 rounded-full">
-                  {totalQuantity}
-                </span>
-              )}
+
               <span
                 className={`${isActive ? "text-purple-600" : "text-gray-500"}`}
               >

@@ -3,14 +3,19 @@ import SectionCard from "./modules/SectionCard";
 import PublicLayout from "./layouts/PublicLayout";
 import { formatPriceToFarsi } from "../../lib/helpers";
 import CartProductCard from "./modules/CartProductCard";
+import { useCartStore } from "../../store/cartStore";
 
 export default function CartPage() {
-  const totalPrice = 1000;
-  // cartItems.reduce(
-  //   (sum, item) => sum + item.price * item.quantity,
-  //   0
-  // );
-  const shipping = 44000;
+  const { cart } = useCartStore();
+   const totalPrice = cart.reduce((sum, product) => {
+    const productTotal = Object.values(product.colorQuantities).reduce(
+      (qtySum, qty) => qtySum + qty * product.price,
+      0
+    );
+    return sum + productTotal;
+  }, 0);
+  
+  const shipping = 70000;
   const payable = totalPrice + shipping;
 
   return (
@@ -18,7 +23,7 @@ export default function CartPage() {
       <SectionCard>
         <div className="flex flex-col gap-6 md:flex-row-reverse">
           {/* ستون جزئیات محصولات */}
-          <CartProductCard/>
+          <CartProductCard />
 
           {/* فاکتور خرید */}
           <div className="bg-white w-full md:w-1/3 p-5 rounded-lg shadow h-fit text-right mb-5">
