@@ -6,7 +6,7 @@ export default function Logo() {
     <Link href="/" className="flex items-center gap-2">
       <div className="w-8 h-8 relative">
         <Image
-          src="/brand-01.svg"   // مسیر لوگو در فولدر public
+          src="/images/icons/logo.svg"
           alt="MyShop Logo"
           fill
           className="object-contain"

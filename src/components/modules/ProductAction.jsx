@@ -46,7 +46,7 @@ export default function ProductActions({ product }) {
         />
         <div>
           <p className="text-lg font-semibold">{product.name}</p>
-          <p className="text-sm text-gray-500">{product.category.name}</p>
+          <p className="text-sm text-gray-500">{product.category}</p>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import SearchBox from "./Searchbox";
 
 const SearchModal = ({ isOpen, onClose }) => {
   const [show, setShow] = useState(false);
@@ -41,12 +42,7 @@ const SearchModal = ({ isOpen, onClose }) => {
           ← بازگشت
         </button>
 
-        <input
-          type="text"
-          placeholder="...جستجوی محصول"
-          className="w-full border rounded-lg p-2 text-right"
-          autoFocus
-        />
+        <SearchBox/>
       </div>
     </div>
   );

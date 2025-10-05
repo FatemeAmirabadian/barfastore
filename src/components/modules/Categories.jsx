@@ -1,27 +1,5 @@
 import Link from "next/link";
-
-const categories = [
-  { name: "خودکار", image: "/pen-category.webp", url: "categories/pens" },
-  { name: "کاغذ", image: "/paper-category.jpg", url: "categories/pens" },
-  { name: "قیچی", image: "/scissor-category.jpg", url: "categories/pens" },
-  { name: "نقاشی", image: "/painting-category.webp", url: "categories/pens" },
-  { name: "خط‌کش", image: "/ruler-category.webp", url: "categories/pens" },
-  {
-    name: "ابزار هنری",
-    image: "/paint-brushes-category.webp",
-    url: "categories/pens",
-  },
-  {
-    name: "تراش",
-    image: "/pencil-sharpener-category.jpg",
-    url: "categories/pens",
-  },
-  {
-    name: "دفترچه یادداشت",
-    image: "/notebook-category.webp",
-    url: "categories/pens",
-  },
-];
+import { categories } from "../../../data/categories";
 
 export default function Categories() {
   return (

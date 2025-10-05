@@ -1,6 +1,9 @@
-export const categories = {
-    electronics: { id: 1, name: "Electronics", slug: "electronics" },
-    stationery:  { id: 2, name: "دفتر",  slug: "stationery" },
-    books:       { id: 3, name: "Books",       slug: "books" },
-  };
-  
+export const categories = [
+  {
+    id: 1,
+    name: "دفتر",
+    image: "/images/categories/notebook-category.webp",
+    slug: "daftar",
+    url: "categories/notebooks",
+  },
+];

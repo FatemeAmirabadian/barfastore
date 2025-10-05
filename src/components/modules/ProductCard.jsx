@@ -5,7 +5,6 @@ import Image from "next/image";
 export default function ProductCard({ product }) {
   const imageUrl =
     product.images?.[0]?.url || "https://via.placeholder.com/150";
-
   const hasDiscount =
     product.discountPercent > 0 &&
     (!product.discountEnd || new Date(product.discountEnd) >= new Date());
@@ -23,7 +22,7 @@ export default function ProductCard({ product }) {
           />
           {/* بج درصد تخفیف */}
           {hasDiscount && (
-            <div className="absolute top-2 left-0 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-r-full flex flex-row items-center gap-1">
+            <div className="absolute top-2 left-0 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-r-full flex flex-row-reverse items-center gap-1">
               <span>{formatPriceToFarsi(product.discountPercent)}</span>
               <span>درصد</span>
             </div>
@@ -31,25 +30,26 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* بلوک نوشته - 10٪ پایین کارت */}
-        <div className="flex flex-row justify-between items-center p-1 text-center h-1/4">
+        <div className="flex flex-col justify-start items-end gap-2 p-1 text-center h-1/5">
           <h3 className="text-sm sm:text-md font-medium line-clamp-1">
             {product.name}
           </h3>
           {hasDiscount ? (
-            <div className="grid grid-cols">
-              <span className="block text-gray-400 line-through text-xs sm:tex-md">
-                {formatPriceToFarsi(product.price)}
-              </span>
+            <div className="flex flex-row-reverse justify-between items-center">
               <span className="text-blue-500 font-semibold">
                 {formatPriceToFarsi(
                   getDiscountedPrice(product.price, product.discountPercent)
                 )}
               </span>
-              <span className="text-gray-400"> تومان</span>
+              <span className="text-gray-400 pr-1"> تومان</span>
+              <span className="block text-gray-400 font-semibold line-through pr-2 text-sm sm:tex-md">
+                {formatPriceToFarsi(product.price)}
+              </span>
             </div>
           ) : (
-            <span className="text-blue-500 font-semibold">
-              {formatPriceToFarsi(product.price)} تومان
+            <span className=" flex flex-row justify-between items-center text-blue-500 font-semibold">
+              <span className="text-gray-400 pr-1"> تومان</span>
+              {formatPriceToFarsi(product.price)}
             </span>
           )}
         </div>
