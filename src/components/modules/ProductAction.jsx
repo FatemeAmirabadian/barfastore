@@ -68,7 +68,7 @@ export default function ProductActions({ product }) {
             </span>
           )}
           <br />
-          <span className="flex flex-reverse gap-1 items-center text-purple-700 font-bold text-md md:text-xl">
+          <span className="flex flex-reverse gap-1 items-center text-blue-700 font-bold text-md md:text-xl">
             <span className="text-sm">تومان</span>
             {formatPriceToFarsi(finalPrice)}
           </span>
@@ -78,8 +78,8 @@ export default function ProductActions({ product }) {
           onClick={handleAddToCart}
           className={`rounded-lg text-white transition text-md md:text-xl p-2 ${
             !selectedColor
-              ? "bg-purple-300 cursor-not-allowed"
-              : "bg-purple-500 hover:bg-purple-600"
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
           }`}
         >
           افزودن به سبد خرید

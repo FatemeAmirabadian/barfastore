@@ -52,7 +52,7 @@ export default function CartPage() {
                 <span>مبلغ نهایی</span>
               </div>
             </div>
-            <button className="bg-blue-500 w-full text-white rounded-xl p-2 m-3 mx-auto hover:bg-blue-600 transition">
+            <button className="bg-blue-700 hover:bg-blue-900 w-full text-white rounded-xl p-2 m-3 mx-auto hover:bg-blue-600 transition">
               تکمیل خرید
             </button>
           </div>

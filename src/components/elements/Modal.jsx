@@ -30,7 +30,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     <div className="fixed inset-0 z-50">
       {/* بک‌گراند شفاف */}
       <div
-        className={`absolute inset-0 bg-purple-300 transition-opacity duration-300 ${
+        className={`absolute inset-0 bg-blue-300 transition-opacity duration-300 ${
           animate ? "opacity-70" : "opacity-0"
         }`}
         onClick={onClose}
@@ -46,7 +46,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
             : `translateY(${modalHeight}px)`,
         }}
       >
-        <button onClick={onClose} className="mb-4 text-purple-600 font-bold">
+        <button onClick={onClose} className="mb-4 text-blue-600 font-bold">
           ← بازگشت
         </button>
 

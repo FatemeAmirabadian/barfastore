@@ -20,7 +20,7 @@ export default function ColorSelector({ colors, selectedColors = null, onChange 
             w-20 h-10 flex items-center justify-center rounded-lg border text-sm font-medium cursor-pointer transition
             ${
               selected === color
-                ? "border-purple-600 bg-purple-100 text-purple-700 shadow-md scale-105"
+                ? "border-blue-600 bg-blue-100 text-blue-700 shadow-md scale-105"
                 : "border-gray-300 bg-gray-100 text-gray-600 hover:bg-gray-200"
             }
           `}

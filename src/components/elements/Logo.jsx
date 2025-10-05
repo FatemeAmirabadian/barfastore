@@ -12,7 +12,7 @@ export default function Logo() {
           className="object-contain"
         />
       </div>
-      <span className="text-purple-700 font-bold text-xl">برفا استور</span>
+      <span className="text-blue-700 font-bold text-xl">برفا استور</span>
     </Link>
   );
 }

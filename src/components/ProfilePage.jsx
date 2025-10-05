@@ -10,21 +10,21 @@ export default function ProfilePage() {
   });
 
   return (
-    <div className="min-h-screen bg-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-blue-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl shadow-md p-8 w-full max-w-md flex flex-col items-center">
         {/* عکس پروفایل */}
         <img
           src={user.avatar}
           alt="Profile"
-          className="w-32 h-32 rounded-full object-cover mb-4 border-4 border-purple-300"
+          className="w-32 h-32 rounded-full object-cover mb-4 border-4 border-blue-300"
         />
         {/* نام */}
-        <h1 className="text-2xl font-bold text-purple-800">{user.name}</h1>
+        <h1 className="text-2xl font-bold text-blue-800">{user.name}</h1>
         {/* ایمیل */}
         <p className="text-gray-600 mb-6">{user.email}</p>
 
         {/* دکمه ویرایش */}
-        <button className="bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-800 transition">
+        <button className="bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-800 transition">
           ویرایش پروفایل
         </button>
       </div>

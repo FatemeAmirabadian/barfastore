@@ -11,9 +11,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-purple-50">
+    <div className="min-h-screen flex items-center justify-center bg-blue-50">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-purple-800 mb-6 text-center">
+        <h1 className="text-2xl font-bold text-blue-800 mb-6 text-center">
           ورود
         </h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -22,7 +22,7 @@ export default function LoginPage() {
             placeholder="ایمیل"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
           <input
@@ -30,12 +30,12 @@ export default function LoginPage() {
             placeholder="رمز عبور"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
           <button
             type="submit"
-            className="bg-purple-700 text-white py-2 rounded-lg font-semibold hover:bg-purple-800 transition"
+            className="bg-blue-700 text-white py-2 rounded-lg font-semibold hover:bg-blue-800 transition"
           >
             ورود
           </button>

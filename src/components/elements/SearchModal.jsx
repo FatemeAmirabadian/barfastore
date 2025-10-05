@@ -22,7 +22,7 @@ const SearchModal = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50">
       {/* بک‌گراند شفاف */}
       <div
-        className={`absolute inset-0 bg-purple-900 transition-opacity duration-300 ${
+        className={`absolute inset-0 bg-blue-900 transition-opacity duration-300 ${
           animate ? "opacity-70" : "opacity-0"
         }`}
         onClick={onClose}
@@ -36,7 +36,7 @@ const SearchModal = ({ isOpen, onClose }) => {
       >
         <button
           onClick={onClose}
-          className="mb-4 text-purple-600 font-bold"
+          className="mb-4 text-blue-600 font-bold"
         >
           ← بازگشت
         </button>
