@@ -49,7 +49,7 @@ const CartProductCard = () => {
                 >
                   <SlTrash/>
                 </button>
-                <div className="flex flex-row-reverse text-purple-600 font-semibold">
+                <div className="flex flex-row-reverse text-blue-600 font-semibold">
                   {formatPriceToFarsi(product.price)}
                   <span className="px-1"> تومان</span>
                 </div>
