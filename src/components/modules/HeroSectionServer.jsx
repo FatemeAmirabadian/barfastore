@@ -1,10 +1,9 @@
 import Image from "next/image";
 
 const images = [
-  "/20250507_125641.jpg",
-  "/brand-03.svg",
-  "/notebook-category.webp",
-  "/20250428_184531.jpg",
+  "/images/20250312_135123.jpg",
+  "/images/20250317_132059.jpg",
+  "/images/20250326_131826.jpg",
 ];
 
 export default function HeroSectionServer({ current }) {

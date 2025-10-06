@@ -1,5 +1,3 @@
-import { categories } from "./categories";
-
 export const products = [
   {
     id: 1,
@@ -11,7 +9,7 @@ export const products = [
     discountPercent: 10,
     discountEnd: "2025-10-15",
     createdAt: "2025-09-29T20:00:00Z",
-    category: categories.stationery,
+    category: "notebooks",
     description:
       "دفتر 100 برگ با جلد سخت و طراحی گلدار، مناسب برای یادداشت‌های روزمره و مدرسه.",
     specs: {
@@ -33,7 +31,7 @@ export const products = [
     discountPercent: 0,
     discountEnd: null,
     createdAt: "2025-09-30T14:00:00Z",
-    category: categories.stationery,
+    category: "pens",
     description:
       "خودکار ژله‌ای با نوک نرم و رنگ آبی پررنگ، مناسب برای نوشتن طولانی‌مدت بدون خستگی.",
     specs: {
@@ -55,7 +53,7 @@ export const products = [
     discountPercent: 5,
     discountEnd: "2025-10-12",
     createdAt: "2025-09-25T10:00:00Z",
-    category: categories.stationery,
+    category: "pencils",
     description:
       "مداد مشکی با کیفیت بالا و مغزی نرم، مناسب برای طراحی و نوشتن روزمره.",
     specs: {
@@ -77,7 +75,7 @@ export const products = [
     discountPercent: 0,
     discountEnd: null,
     createdAt: "2025-09-28T09:00:00Z",
-    category: categories.stationery,
+    category: "erasers",
     description:
       "پاک‌کن فانتزی به شکل سیاره، با کیفیت عالی و مناسب برای استفاده روزانه یا هدیه.",
     specs: {
@@ -99,7 +97,7 @@ export const products = [
     discountPercent: 15,
     discountEnd: "2025-10-20",
     createdAt: "2025-09-27T13:00:00Z",
-    category: categories.office,
+    category: "markers",
     description:
       "ست ۴ عددی ماژیک هایلایتر با رنگ‌های شاد و ماندگاری بالا برای یادداشت و مطالعه.",
     specs: {
@@ -121,7 +119,7 @@ export const products = [
     discountPercent: 0,
     discountEnd: null,
     createdAt: "2025-09-26T18:00:00Z",
-    category: categories.office,
+    category: "planners",
     description:
       "کاغذ رنگی در سایز A4 با رنگ‌های متنوع، مناسب برای کاردستی و چاپ.",
     specs: {
@@ -143,7 +141,7 @@ export const products = [
     discountPercent: 10,
     discountEnd: "2025-10-18",
     createdAt: "2025-09-29T11:00:00Z",
-    category: categories.accessories,
+    category: "pencilcases",
     description:
       "جامدادی پارچه‌ای زیپ‌دار با طرح حیوانات بامزه، مناسب برای دانش‌آموزان.",
     specs: {
@@ -165,7 +163,7 @@ export const products = [
     discountPercent: 0,
     discountEnd: null,
     createdAt: "2025-09-21T15:00:00Z",
-    category: categories.decor,
+    category: "stickers",
     description:
       "برچسب‌های تزئینی با طرح گل برای دفتر، لپ‌تاپ و وسایل شخصی.",
     specs: {
@@ -187,7 +185,7 @@ export const products = [
     discountPercent: 5,
     discountEnd: "2025-10-12",
     createdAt: "2025-09-24T09:00:00Z",
-    category: categories.office,
+    category: "stickynotes",
     description:
       "کاغذ یادداشت چسب‌دار در طرح‌های ساده و مینیمال، مناسب برای برنامه‌ریزی و کارهای روزانه.",
     specs: {
@@ -209,7 +207,7 @@ export const products = [
     discountPercent: 12,
     discountEnd: "2025-10-25",
     createdAt: "2025-09-30T20:00:00Z",
-    category: categories.stationery,
+    category: "planners",
     description:
       "دفتر برنامه‌ریزی هفتگی با جلد سخت و صفحات خط‌کشی‌شده برای نظم در کارها و اهداف.",
     specs: {

@@ -1,14 +1,24 @@
+"use client";
 import React from "react";
 import Modal from "./Modal";
+import Link from "next/link";
+import { categories } from "../../../data/categories"
 
 const CategoriesModal = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} height="1/2">
-      <ul className="space-y-2 text-right">
-        <li className="p-2 border rounded">دفتر</li>
-        <li className="p-2 border rounded">خودکار</li>
-        <li className="p-2 border rounded">ماژیک</li>
-        <li className="p-2 border rounded">لوازم هنری</li>
+      <ul className="space-y-2 text-right max-h-64 overflow-y-auto">
+        {categories.map((category) => (
+          <li key={category.id}>
+            <Link
+              href={`/${category.url}`}
+              onClick={onClose}
+              className="block p-2 border rounded hover:bg-gray-100 transition cursor-pointer"
+            >
+              {category.name}
+            </Link>
+          </li>
+        ))}
       </ul>
     </Modal>
   );

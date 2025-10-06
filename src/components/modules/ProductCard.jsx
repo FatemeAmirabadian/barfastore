@@ -30,7 +30,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* بلوک نوشته - 10٪ پایین کارت */}
-        <div className="flex flex-col justify-start items-end gap-2 p-1 text-center h-1/5">
+        <div className="flex flex-col justify-start items-end p-1 text-center h-1/5">
           <h3 className="text-sm sm:text-md font-medium line-clamp-1">
             {product.name}
           </h3>
@@ -41,14 +41,14 @@ export default function ProductCard({ product }) {
                   getDiscountedPrice(product.price, product.discountPercent)
                 )}
               </span>
-              <span className="text-gray-400 pr-1"> تومان</span>
-              <span className="block text-gray-400 font-semibold line-through pr-2 text-sm sm:tex-md">
+              <span className="text-blue-500  font-semibold pr-1"> تومان</span>
+              <span className="block text-gray-400 font-semibold line-through text-md sm:tex-lg mr-4">
                 {formatPriceToFarsi(product.price)}
               </span>
             </div>
           ) : (
             <span className=" flex flex-row justify-between items-center text-blue-500 font-semibold">
-              <span className="text-gray-400 pr-1"> تومان</span>
+              <span className="pr-1"> تومان</span>
               {formatPriceToFarsi(product.price)}
             </span>
           )}
