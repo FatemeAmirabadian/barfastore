@@ -53,7 +53,7 @@ export default function NewProductCard({ product }) {
     </span>
   </div>
 ) : (
-  <div className="flex flex-row-reverse items-center gap-1 text-blue-500 font-semibold">
+  <div className="flex flex-row items-center gap-1 text-blue-500 font-semibold">
     <span>{formatPriceToFarsi(product.price)}</span>
     <span>تومان</span>
   </div>

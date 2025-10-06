@@ -3,6 +3,13 @@ import { create } from "zustand";
 
 export const useCartStore = create((set) => ({
   cart: [],
+  selectedColor: null,
+  isWishlisted: false,
+  colorSelectedSuccess: false,
+
+  setSelectedColor: (color) => set({ selectedColor: color }),
+  toggleWishlist: () => set((state) => ({ isWishlisted: !state.isWishlisted })),
+  setColorSelectedSuccess: (value) => set({ colorSelectedSuccess: value }),
 
   addToCart: (product, selectedColor, finalPrice) =>
     set((state) => {

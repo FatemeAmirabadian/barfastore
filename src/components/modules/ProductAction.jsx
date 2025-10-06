@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import ColorSelector from "../elements/ColorSelector";
 import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
 import FavoriteButton from "../elements/FavoriteButton";
@@ -7,11 +6,15 @@ import { useCartStore } from "../../../store/cartStore";
 import { FailAlrt, SuccessAlrt } from "../elements/Alerts";
 
 export default function ProductActions({ product }) {
-  const addToCart = useCartStore((state) => state.addToCart);
+  const {
+    addToCart,
+    selectedColor,
+    setSelectedColor,
+    isWishlisted,
+    toggleWishlist,
+    setColorSelectedSuccess,
+  } = useCartStore();
 
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const [colorSelectedSuccess, setColorSelectedSuccess] = useState(false);
   const hasDiscount =
     product.discountPercent > 0 &&
     (!product.discountEnd || new Date(product.discountEnd) >= new Date());
@@ -24,10 +27,6 @@ export default function ProductActions({ product }) {
     if (!selectedColor) return FailAlrt("لطفا حداقل یک رنگ را انتخاب کنید");
     addToCart(product, selectedColor, finalPrice);
     SuccessAlrt("محصول به سبد خرید اضافه شد");
-  };
-
-  const toggleWishlist = () => {
-    setIsWishlisted((prev) => !prev);
   };
 
   const handleColorChange = (color) => {
@@ -45,8 +44,7 @@ export default function ProductActions({ product }) {
           onToggle={toggleWishlist}
         />
         <div>
-          <p className="text-lg font-semibold">{product.name}</p>
-          <p className="text-sm text-gray-500">{product.category}</p>
+          <p className="text-sm sm:text-lg font-semibold">{product.name}</p>
         </div>
       </div>
 

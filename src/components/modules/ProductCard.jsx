@@ -31,7 +31,7 @@ export default function ProductCard({ product }) {
 
         {/* بلوک نوشته - 10٪ پایین کارت */}
         <div className="flex flex-col justify-start items-end p-1 text-center h-1/5">
-          <h3 className="text-sm sm:text-md font-medium line-clamp-1">
+          <h3 className="text-xs sm:text-sm text-right font-medium line-clamp-1">
             {product.name}
           </h3>
           {hasDiscount ? (

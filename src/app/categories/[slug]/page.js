@@ -1,7 +1,6 @@
 import React from 'react'
 import { categories } from '../../../../data/categories';
 import { products } from '../../../../data/products'; // مسیر فایل محصولات
-import Image from 'next/image';
 import SectionCard from '@/components/modules/SectionCard';
 import ProductCard from '@/components/modules/ProductCard';
 

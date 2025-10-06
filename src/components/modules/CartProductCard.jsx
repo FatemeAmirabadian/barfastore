@@ -4,16 +4,19 @@ import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
 import Image from "next/image";
 import QuantitySelector from "../elements/QuantitySelector";
 import { SlTrash } from "react-icons/sl";
+import { products } from "../../../data/products";
+import Link from "next/link";
 
 const CartProductCard = () => {
-  const { cart , updateColorQuantity , removeColorFromCart } = useCartStore();
+  const { cart, updateColorQuantity, removeColorFromCart } = useCartStore();
+
   const handleIncrease = (productId, color) => {
     const product = cart.find((p) => p.productId === productId);
     if (product) {
       updateColorQuantity(productId, color, product.colorQuantities[color] + 1);
     }
   };
-  
+
   const handleDecrease = (productId, color) => {
     const product = cart.find((p) => p.productId === productId);
     if (product) {
@@ -37,54 +40,93 @@ const CartProductCard = () => {
               price: product.price,
             }))
           )
-          .map((product, index) => (
-            <div
-              key={index}
-              className="p-2 mb-2 flex justify-between items-center border-b border-gray-200 rounded-lg"
-            >
-              <div className="flex flex-col justify-between gap-10">
-                <button
-                  onClick={() => removeColorFromCart(product.productId,product.color)}
-                  className="text-red-500 bg-red-200 p-1 rounded-md mb-2 flex justify-center items-center w-10 md:15"
-                >
-                  <SlTrash/>
-                </button>
-                <div className="flex flex-row-reverse text-blue-600 font-semibold">
-                  {formatPriceToFarsi(product.price)}
-                  <span className="px-1"> تومان</span>
-                </div>
-              </div>
+          .map((product, index) => {
+            const hasDiscount =
+              products.find((p) => p.id === product.productId).discountPercent >
+              0;
+            const DiscountedProduct = products.find(
+              (p) => p.id === product.productId
+            );
+            const productSlug = products.find(
+              (p) => p.id === product.productId
+            ).slug;
 
-              <div className="flex gap-2 text-right">
-                <div className="flex flex-col justify-start items-end text-sm">
-                  <p className="text-xl font-semibold mb-2">{product.name}</p>
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <span className="bg-gray-200 rounded-md p-1 px-2 text-center w-15 md:w-20">
-                      {product.color}
-                    </span>
-                    <QuantitySelector
-                      quantity={product.qty}
-                      onIncrease={() =>
-                        handleIncrease(product.productId, product.color)
-                      }
-                      onDecrease={() =>
-                        handleDecrease(product.productId, product.color)
-                      }
-                    />
-                  </div>
+            return (
+              <div
+                key={index}
+                className="p-2 mb-2 flex justify-between items-center border-b border-gray-200 rounded-lg"
+              >
+                <div className="flex flex-col justify-between gap-10">
+                  <button
+                    onClick={() =>
+                      removeColorFromCart(product.productId, product.color)
+                    }
+                    className="text-red-500 bg-red-200 p-1 rounded-md mb-2 flex justify-center items-center w-10 md:15"
+                  >
+                    <SlTrash />
+                  </button>
+                  {hasDiscount ? (
+                    <div className="flex flex-col-reverse justify-between">
+                      <span className="flex flex-row-reverse gap-1 text-blue-500 font-semibold">
+                        <span>
+                          {formatPriceToFarsi(
+                            getDiscountedPrice(
+                              DiscountedProduct.price,
+                              DiscountedProduct.discountPercent
+                            )
+                          )}
+                        </span>
+                        <span>تومان</span>
+                      </span>
+                      <span className="block text-gray-400 font-semibold line-through text-xs sm:tex-sm mr-4">
+                        {formatPriceToFarsi(DiscountedProduct.price)}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-row-reverse text-blue-600 font-semibold">
+                      {formatPriceToFarsi(product.price)}
+                      <span className="px-1"> تومان</span>
+                    </div>
+                  )}
                 </div>
-                {product.image && (
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={50}
-                    height={50}
-                    className="rounded-md md:ml-4 mb-2 md:mb-0"
-                  />
-                )}
+
+                <div className="flex gap-2 text-right">
+                  <div className="flex flex-col justify-start items-end text-sm">
+                    <Link href={`/products/${productSlug}`}>
+                      <p className="text-xs sm:text-base font-semibold mb-2">
+                        {product.name}
+                      </p>
+                    </Link>
+                    <div className="flex flex-row-reverse items-center gap-2">
+                      <span className="text-xs bg-gray-200 rounded-md p-2 text-center w-15 md:w-20">
+                        {product.color}
+                      </span>
+                      <QuantitySelector
+                        quantity={product.qty}
+                        onIncrease={() =>
+                          handleIncrease(product.productId, product.color)
+                        }
+                        onDecrease={() =>
+                          handleDecrease(product.productId, product.color)
+                        }
+                      />
+                    </div>
+                  </div>
+                  {product.image && (
+                    <Link href={`/products/${productSlug}`}>
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={50}
+                        height={50}
+                        className="rounded-md md:ml-4 mb-2 md:mb-0"
+                      />
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
       )}
     </div>
   );
