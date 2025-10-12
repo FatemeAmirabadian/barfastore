@@ -1,11 +1,74 @@
 "use client";
 
-import React from "react";
-import { products } from "../../../data/products";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { formatPriceToFarsi } from "../../../lib/helpers";
 
 export default function ProductListPage() {
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+
+  // دریافت محصولات هنگام لود کامپوننت
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  async function getProducts() {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/products");
+      if (response.ok) {
+        const result = await response.json();
+        setProducts(result);
+      } else {
+        alert("❌ خطا در دریافت محصولات");
+      }
+    } catch (error) {
+      alert("❌ خطا در ارسال درخواست");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteProduct(productId) {
+    if (!confirm("آیا از حذف این محصول مطمئن هستید؟")) return;
+
+    try {
+      const response = await fetch("/api/products", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: productId }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // آپدیت لیست محلی
+        setProducts((prev) => prev.filter((p) => p.id !== productId));
+        alert("✅ محصول حذف شد");
+      } else {
+        alert("❌ " + result.error);
+      }
+    } catch (error) {
+      alert("❌ خطا در حذف محصول");
+      console.error(error);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-xl">⏳</div>
+          <div>در حال بارگذاری محصولات...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-2xl font-bold mb-5 text-center">لیست محصولات</h1>
@@ -30,7 +93,10 @@ export default function ProductListPage() {
                 <button className="p-1 bg-green-100 hover:bg-green-300 rounded-md text-xs sm:text-sm ">
                   ویرایش محصول
                 </button>
-                <button className="p-1 bg-red-100 hover:bg-red-300 rounded-md text-xs sm:text-sm">
+                <button
+                  className="p-1 bg-red-100 hover:bg-red-300 rounded-md text-xs sm:text-sm"
+                  onClick={() => deleteProduct(p.id)}
+                >
                   حذف محصول
                 </button>
               </div>
@@ -49,25 +115,25 @@ export default function ProductListPage() {
               )}
             </div>
             {/* اطلاعات محصول */}
-            <div className="p-4 flex flex-row-reverse justify-between items-center text-right">
+            <div className="p-4 flex flex-row-reverse justify-start items-center gap-5 sm:gap-20 text-right">
               <div className="grid grid-col items-center gap-2">
                 <span className="text-gray-600 line-through">
                   {p.discountPercent > 0
-                    ? (
-                        p.price +
-                        (p.price * p.discountPercent) / 100
-                      ).toLocaleString()
+                    ? formatPriceToFarsi(
+                        p.price + (p.price * p.discountPercent) / 100
+                      )
                     : null}
                 </span>
                 <span className="text-green-600 font-bold flex flex-row-reverse gap-1">
-                  <span>{p.price.toLocaleString()}</span>
+                  <span>{formatPriceToFarsi(p.price)}</span>
                   <span>تومان</span>
                 </span>
               </div>
-              <h2 className="text-red-500 text-sm">
-                {p.discountPercent > 0 && `${p.discountPercent}%`}
+              <h2 className="text-red-500 text-sm sm:text-lg">
+                {p.discountPercent > 0 &&
+                  `${formatPriceToFarsi(p.discountPercent)}% :تخفیف`}
               </h2>
-              <h2 className="text-red-500 text-sm">
+              <h2 className="text-red-500 text-sm sm:text-lg">
                 {p.discountPercent > 0 &&
                 new Date(p.discountEnd).getTime() > Date.now() ? (
                   <div className="flex flew-row-reverse gap-1">

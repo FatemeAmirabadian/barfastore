@@ -1,13 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
+import { ColorManager } from "./(form)/ColorManager";
+import CategoryManager from "./(form)/CategoryManager";
+import { ColorQuantitiesManager } from "./(form)/ColorQuantitiesManager";
+import { ImagesManager } from "./(form)/ImagesManager";
+import { useRouter } from "next/navigation";
 
 export default function ProductForm() {
-  const [form, setForm] = useState({
+  const router = useRouter();
+  const initialForm = {
     name: "",
     slug: "",
-    images: "",
-    colors: "",
+    images: [],
+    colors: [],
+    quantities: "",
     price: "",
     discountPercent: "",
     discountEnd: "",
@@ -17,9 +24,10 @@ export default function ProductForm() {
     dimensions: "",
     material: "",
     pages: "",
-    colorQuantitiesJson: "{}",
-  });
-  const [result, setResult] = useState(null);
+    colorQuantities: {},
+  };
+  const [form, setForm] = useState(initialForm);
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -37,59 +45,58 @@ export default function ProductForm() {
       .replace(/\s+/g, "-");
   }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
-
-    const id = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Date.now();
-
-    const images = form.images
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .map((url) => ({ url }));
-
-    const colors = form.colors
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-
-    const price = parseInt(form.price || "0", 10);
-    const discountPercent = parseInt(form.discountPercent || "0", 10);
-
-    let colorQuantities = {};
-    try {
-      colorQuantities = JSON.parse(form.colorQuantitiesJson || "{}");
-    } catch (err) {
-      alert("فرمت colorQuantities باید JSON باشد، مثال: { \"صورتی\": 10 }");
-      return;
-    }
+    setLoading(true);
+    const id = crypto?.randomUUID?.();
 
     const product = {
       id,
-      name: form.name || "",
-      slug: form.slug || makeSlug(form.name || "unnamed-product"),
-      images,
-      colors,
-      price,
-      discountPercent,
+      name: form.name,
+      slug: form.slug,
+      images: form.images,
+      colors: form.colors,
+      quantities: parseInt(form.quantities) || 0,
+      price: parseInt(form.price) || 0,
+      discountPercent: parseInt(form.discountPercent) || 0,
       discountEnd: form.discountEnd || null,
       createdAt: new Date().toISOString(),
-      category: form.category || "",
-      description: form.description || "",
+      category: form.category,
+      description: form.description,
       specs: {
-        وزن: form.weight || "",
-        ابعاد: form.dimensions || "",
-        جنس: form.material || "",
-        تعداد_برگ: form.pages || "",
+        وزن: parseInt(form.weight) || 0,
+        ابعاد: form.dimensions || 0,
+        جنس: form.material || null,
+        تعداد_برگ: parseInt(form.pages) || 0,
       },
       comments: [],
-      colorQuantities,
+      colorQuantities: form.colorQuantities,
     };
 
-    setResult(product);
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      });
 
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(JSON.stringify(product, null, 2)).catch(() => {});
+      const result = await response.json();
+
+      if (result.success) {
+        alert("✅ محصول با موفقیت اضافه شد!");
+        // ریست فرم
+        setForm(initialForm);
+        router.push("/admin/products");
+      } else {
+        alert("❌ خطا در اضافه کردن محصول");
+      }
+    } catch (error) {
+      alert("❌ خطا در ارسال درخواست");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -105,103 +112,149 @@ export default function ProductForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <label className="flex flex-col">
             <span className="text-sm">نام محصول</span>
-            <input name="name" value={form.name} onChange={handleChange} className="mt-1 p-2 border rounded" />
+            <input
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
           <label className="flex flex-col">
-            <span className="text-sm">اسلاگ (اختیاری)</span>
-            <input name="slug" value={form.slug} onChange={handleChange} className="mt-1 p-2 border rounded" />
+            <span className="text-sm">آدرس url</span>
+            <input
+              name="slug"
+              value={form.slug}
+              onChange={handleChange}
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
-          <label className="flex flex-col md:col-span-2">
-            <span className="text-sm">آدرس تصاویر (با کاما جدا کنید)</span>
-            <input name="images" value={form.images} onChange={handleChange} placeholder="/images/a.jpg, /images/b.jpg" className="mt-1 p-2 border rounded" />
-          </label>
+          <ImagesManager
+            value={form.images}
+            onChange={handleChange}
+            name="images"
+          />
+
+          <ColorManager
+            value={form.colors}
+            onChange={handleChange}
+            name="colors"
+          />
 
           <label className="flex flex-col">
-            <span className="text-sm">رنگ‌ها</span>
-            <input name="colors" value={form.colors} onChange={handleChange} className="mt-1 p-2 border rounded" />
+            <span className="text-sm">تعداد</span>
+            <input
+              name="quantities"
+              value={form.quantities}
+              onChange={handleChange}
+              type="number"
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
           <label className="flex flex-col">
             <span className="text-sm">قیمت (تومان)</span>
-            <input name="price" value={form.price} onChange={handleChange} type="number" className="mt-1 p-2 border rounded" />
+            <input
+              name="price"
+              value={form.price}
+              onChange={handleChange}
+              type="number"
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
           <label className="flex flex-col">
             <span className="text-sm">درصد تخفیف</span>
-            <input name="discountPercent" value={form.discountPercent} onChange={handleChange} type="number" className="mt-1 p-2 border rounded" />
+            <input
+              name="discountPercent"
+              value={form.discountPercent}
+              onChange={handleChange}
+              type="number"
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
           <label className="flex flex-col">
             <span className="text-sm">پایان تخفیف (تاریخ)</span>
-            <input name="discountEnd" value={form.discountEnd} onChange={handleChange} type="date" className="mt-1 p-2 border rounded" />
+            <input
+              name="discountEnd"
+              value={form.discountEnd}
+              onChange={handleChange}
+              type="date"
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
-          <label className="flex flex-col">
-            <span className="text-sm">دسته‌بندی</span>
-            <input name="category" value={form.category} onChange={handleChange} className="mt-1 p-2 border rounded" />
-          </label>
-
-          <label className="flex flex-col md:col-span-2">
-            <span className="text-sm">توضیحات</span>
-            <textarea name="description" value={form.description} onChange={handleChange} rows={3} className="mt-1 p-2 border rounded" />
-          </label>
+          <CategoryManager
+            value={form.category}
+            onChange={handleChange}
+            name="category"
+          />
 
           <label className="flex flex-col">
             <span className="text-sm">وزن (مثال: 210 گرم)</span>
-            <input name="weight" value={form.weight} onChange={handleChange} className="mt-1 p-2 border rounded" />
+            <input
+              name="weight"
+              value={form.weight}
+              onChange={handleChange}
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
           <label className="flex flex-col">
             <span className="text-sm">ابعاد (مثال: 21x29 سانتی‌متر)</span>
-            <input name="dimensions" value={form.dimensions} onChange={handleChange} className="mt-1 p-2 border rounded" />
+            <input
+              name="dimensions"
+              value={form.dimensions}
+              onChange={handleChange}
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
           <label className="flex flex-col">
             <span className="text-sm">جنس</span>
-            <input name="material" value={form.material} onChange={handleChange} className="mt-1 p-2 border rounded" />
+            <input
+              name="material"
+              value={form.material}
+              onChange={handleChange}
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
           <label className="flex flex-col">
             <span className="text-sm">تعداد برگ</span>
-            <input name="pages" value={form.pages} onChange={handleChange} className="mt-1 p-2 border rounded" />
+            <input
+              name="pages"
+              value={form.pages}
+              onChange={handleChange}
+              className="mt-1 p-2 border rounded"
+            />
           </label>
 
-          <label className="flex flex-col md:col-span-2">
-            <span className="text-sm">colorQuantities (JSON)</span>
-            <input name="colorQuantitiesJson" value={form.colorQuantitiesJson} onChange={handleChange} className="mt-1 p-2 border rounded" />
-            <small className="text-xs text-gray-500">مثال: {`{ "صورتی": 10, "بنفش": 5 }`}</small>
-          </label>
+          <ColorQuantitiesManager
+            colors={form.colors}
+            value={form.colorQuantities}
+            onChange={handleChange}
+            name="colorQuantities"
+          />
         </div>
 
         <div className="flex items-center gap-3">
-          <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">ایجاد خروجی</button>
-          <button type="button" onClick={() => setForm({
-            name: "",
-            slug: "",
-            images: "",
-            colors: "",
-            price: "",
-            discountPercent: "",
-            discountEnd: "",
-            category: "",
-            description: "",
-            weight: "",
-            dimensions: "",
-            material: "",
-            pages: "",
-            colorQuantitiesJson: "{}",
-          })} className="px-3 py-2 border rounded">ریست</button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded"
+          >
+            ایجاد خروجی
+          </button>
+          <button
+            type="button"
+            onClick={() => setForm(initialForm)}
+            className="px-3 py-2 border rounded"
+          >
+            ریست
+          </button>
         </div>
-
-        {result && (
-          <div className="bg-gray-50 border p-4 rounded mt-4">
-            <h3 className="font-medium">خروجی:</h3>
-            <pre className="mt-2 text-xs overflow-x-auto">{JSON.stringify(result, null, 2)}</pre>
-            <p className="text-sm mt-2 text-gray-600">خروجی هم در حافظه کلیپ‌بورد کپی شده (در صورت پشتیبانی مرورگر).</p>
-          </div>
-        )}
       </form>
     </div>
   );
