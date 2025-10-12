@@ -24,7 +24,7 @@ export const products = [
       تعداد_برگ: "100 برگ",
     },
     comments: [],
-    colorQuantities: {},
+    colorQuantities: { صورتی: 3, بنفش: 5 },
   },
   {
     id: 2,
