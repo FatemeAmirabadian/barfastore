@@ -68,7 +68,7 @@ export const products = [
     colors: ["مشکی", "زرد"],
     price: 15000,
     discountPercent: 5,
-    discountEnd: "2025-10-12",
+    discountEnd: "2025-11-12",
     createdAt: "2025-09-25T10:00:00Z",
     category: "pencils",
     description:
@@ -234,7 +234,7 @@ export const products = [
     colors: ["بژ", "صورتی", "آبی آسمانی"],
     price: 65000,
     discountPercent: 5,
-    discountEnd: "2025-10-12",
+    discountEnd: "2025-10-20",
     createdAt: "2025-09-24T09:00:00Z",
     category: "stickynotes",
     description:
