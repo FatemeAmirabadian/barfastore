@@ -8,26 +8,7 @@ import { ImagesManager } from "./(form)/ImagesManager";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function ProductForm({
-  mode,
-  initialData = {
-    name: "",
-    slug: "",
-    images: [],
-    colors: [],
-    quantities: 0,
-    price: 0,
-    discountPercent: "",
-    discountEnd: "",
-    category: "",
-    description: "",
-    weight: 0,
-    dimensions: "",
-    material: "",
-    pages: "",
-    colorQuantities: {},
-  },
-}) {
+export default function ProductForm({ mode, initialData = null }) {
   const router = useRouter();
   const initialForm = {
     name: "",
@@ -302,14 +283,14 @@ export default function ProductForm({
           </button>
           <button
             type="button"
-            onClick={() => setForm(initialData || initialForm)}
+            onClick={() => setForm(initialData||initialForm)}
             className="px-3 py-2 border rounded"
           >
             ریست
           </button>
           <button
             type="button"
-            onClick={() => setForm(initialData || initialForm)}
+            onClick={() => setForm(initialData||initialForm)}
             className="px-3 py-2 border rounded"
           >
             <Link href={"/admin/products"}>بازگشت</Link>
