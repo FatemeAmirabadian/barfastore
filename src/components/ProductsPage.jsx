@@ -8,7 +8,7 @@ export default async function ProductsPage() {
   return (
     <PublicLayout>
       <div className="py-8 px-4 max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="flex flex-col-reverse flex-cols-2 sm:flex-cols-3 md:flex-cols-4 xl:flex-cols-5 gap-4">
           {products.map((product) => {
             return <ProductCard key={product.id} product={product} />;
           })}
