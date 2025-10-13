@@ -1,8 +1,10 @@
 import ProductCard from "./modules/ProductCard";
-import { products } from "../../data/products";
 import PublicLayout from "./layouts/PublicLayout";
 
 export default async function ProductsPage() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`);
+  const products = await res.json();
+  console.log(products);
   return (
     <PublicLayout>
       <div className="py-8 px-4 max-w-6xl mx-auto">

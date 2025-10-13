@@ -1,14 +1,12 @@
 import CartPage from "@/components/CartPage";
 import React from "react";
-import {products } from "../../../data/products";
+import { getProducts } from "../../../lib/helpers";
 
-const page = () => {
-  const cartProducts = products
+export default async function page() {
+  const cartProducts = await getProducts();
   return (
     <div>
-      <CartPage products={cartProducts}/>
+      <CartPage products={cartProducts} />
     </div>
   );
-};
-
-export default page;
+}

@@ -1,14 +1,22 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { useCartStore } from "../../../store/cartStore";
-import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
+import {
+  formatPriceToFarsi,
+  getDiscountedPrice,
+  getProducts,
+} from "../../../lib/helpers";
 import Image from "next/image";
 import QuantitySelector from "../elements/QuantitySelector";
 import { SlTrash } from "react-icons/sl";
-import { products } from "../../../data/products";
 import Link from "next/link";
 
-const CartProductCard = () => {
+function CartProductCard() {
   const { cart, updateColorQuantity, removeColorFromCart } = useCartStore();
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    getProducts().then(setProducts).catch(console.error);
+  }, []);
 
   const handleIncrease = (productId, color) => {
     const product = cart.find((p) => p.productId === productId);
@@ -23,6 +31,8 @@ const CartProductCard = () => {
       updateColorQuantity(productId, color, product.colorQuantities[color] - 1);
     }
   };
+
+  if (!products.length) return <p>در حال بارگذاری محصولات...</p>;
 
   return (
     <div className="bg-white w-full p-4 rounded-lg">
@@ -41,15 +51,11 @@ const CartProductCard = () => {
             }))
           )
           .map((product, index) => {
-            const hasDiscount =
-              products.find((p) => p.id === product.productId).discountPercent >
-              0;
-            const DiscountedProduct = products.find(
-              (p) => p.id === product.productId
-            );
-            const productSlug = products.find(
-              (p) => p.id === product.productId
-            ).slug;
+            const productData = products.find((p) => p.id === product.productId);
+            if (!productData) return null;
+
+            const hasDiscount = productData.discountPercent > 0;
+            const productSlug = productData.slug;
 
             return (
               <div
@@ -71,15 +77,15 @@ const CartProductCard = () => {
                         <span>
                           {formatPriceToFarsi(
                             getDiscountedPrice(
-                              DiscountedProduct.price,
-                              DiscountedProduct.discountPercent
+                              productData.price,
+                              productData.discountPercent
                             )
                           )}
                         </span>
                         <span>تومان</span>
                       </span>
                       <span className="block text-gray-400 font-semibold line-through text-xs sm:tex-sm mr-4">
-                        {formatPriceToFarsi(DiscountedProduct.price)}
+                        {formatPriceToFarsi(productData.price)}
                       </span>
                     </div>
                   ) : (
@@ -130,6 +136,6 @@ const CartProductCard = () => {
       )}
     </div>
   );
-};
+}
 
 export default CartProductCard;

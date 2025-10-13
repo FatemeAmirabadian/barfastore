@@ -79,6 +79,12 @@ export default function ProductListPage() {
         >
           افزودن محصول +
         </Link>
+        <Link
+          href={"/products"}
+          className="bg-purple-300 hover:bg-purple-500 transition text-white px-2 py-1 mr-5 rounded-md"
+        >
+          فروشگاه
+        </Link>
       </div>
 
       <div className="flex flex-col-reverse gap-6">
