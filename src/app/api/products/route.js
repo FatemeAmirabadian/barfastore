@@ -55,3 +55,18 @@ export async function DELETE(request) {
     );
   }
 }
+
+
+export async function PUT(req) {
+  try {
+    const updatedProduct = await req.json();
+    const index = products.findIndex(p => p.id === updatedProduct.id);
+    if (index === -1) {
+      return NextResponse.json({ success: false, message: "محصول یافت نشد" }, { status: 404 });
+    }
+    products[index] = updatedProduct;
+    return NextResponse.json({ success: true, product: updatedProduct });
+  } catch (err) {
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}

@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ColorManager } from "./(form)/ColorManager";
 import CategoryManager from "./(form)/CategoryManager";
 import { ColorQuantitiesManager } from "./(form)/ColorQuantitiesManager";
 import { ImagesManager } from "./(form)/ImagesManager";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function ProductForm() {
+export default function ProductForm({ mode, initialData = null }) {
   const router = useRouter();
   const initialForm = {
     name: "",
@@ -26,8 +27,23 @@ export default function ProductForm() {
     pages: "",
     colorQuantities: {},
   };
-  const [form, setForm] = useState(initialForm);
+  const [form, setForm] = useState(initialData || initialForm);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (initialData) {
+      setForm({
+        ...initialForm,
+        ...initialData,
+        ...(initialData.specs && {
+          weight: initialData?.specs["وزن"] || "",
+          dimensions: initialData?.specs["ابعاد"] || "",
+          material: initialData?.specs["جنس"] || "",
+          pages: initialData?.specs["تعداد_برگ"] || "",
+        }),
+      });
+    }
+  }, [initialData]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -48,46 +64,54 @@ export default function ProductForm() {
   async function onSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    const id = crypto?.randomUUID?.();
+    const id =
+      mode === "edit" && initialData ? initialData.id : crypto?.randomUUID?.();
 
     const product = {
       id,
-      name: form.name,
-      slug: form.slug,
-      images: form.images,
-      colors: form.colors,
-      quantities: parseInt(form.quantities) || 0,
-      price: parseInt(form.price) || 0,
-      discountPercent: parseInt(form.discountPercent) || 0,
-      discountEnd: form.discountEnd || null,
+      name: form?.name,
+      slug: form?.slug,
+      images: form?.images,
+      colors: form?.colors,
+      quantities: parseInt(form?.quantities) || 0,
+      price: parseInt(form?.price) || 0,
+      discountPercent: parseInt(form?.discountPercent) || 0,
+      discountEnd: form?.discountEnd || null,
       createdAt: new Date().toISOString(),
-      category: form.category,
-      description: form.description,
+      category: form?.category,
+      description: form?.description,
       specs: {
-        وزن: parseInt(form.weight) || 0,
-        ابعاد: form.dimensions || 0,
-        جنس: form.material || null,
-        تعداد_برگ: parseInt(form.pages) || 0,
+        وزن: parseInt(form?.weight) || 0,
+        ابعاد: form?.dimensions || 0,
+        جنس: form?.material || null,
+        تعداد_برگ: parseInt(form?.pages) || 0,
       },
       comments: [],
       colorQuantities: form.colorQuantities,
     };
 
     try {
-      const response = await fetch("/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      });
+      let response;
+      if (mode === "create") {
+        response = await fetch("/api/products", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(product),
+        });
+      } else if (mode === "edit") {
+        response = await fetch("/api/products", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(product),
+        });
+      }
 
       const result = await response.json();
 
       if (result.success) {
-        alert("✅ محصول با موفقیت اضافه شد!");
+        alert(`✅ محصول با موفقیت ${mode === "edit" ? "ویرایش" : "افزوده"} شد`);
         // ریست فرم
-        setForm(initialForm);
+        setForm(initialData || initialForm);
         router.push("/admin/products");
       } else {
         alert("❌ خطا در اضافه کردن محصول");
@@ -107,7 +131,9 @@ export default function ProductForm() {
         className="w-full max-w-3xl bg-white shadow-md rounded-2xl p-6 space-y-6 text-right"
         dir="rtl"
       >
-        <h2 className="text-2xl font-semibold text-center">فرم محصول</h2>
+        <h2 className="text-2xl font-semibold text-center">
+          {mode === "edit" ? "ویرایش محصول" : "افزودن محصول"}
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <label className="flex flex-col">
@@ -127,6 +153,7 @@ export default function ProductForm() {
               value={form.slug}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
+              required
             />
           </label>
 
@@ -196,7 +223,7 @@ export default function ProductForm() {
             <span className="text-sm">وزن (مثال: 210 گرم)</span>
             <input
               name="weight"
-              value={form.weight}
+              value={form?.weight}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
@@ -206,7 +233,7 @@ export default function ProductForm() {
             <span className="text-sm">ابعاد (مثال: 21x29 سانتی‌متر)</span>
             <input
               name="dimensions"
-              value={form.dimensions}
+              value={form?.dimensions}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
@@ -216,7 +243,7 @@ export default function ProductForm() {
             <span className="text-sm">جنس</span>
             <input
               name="material"
-              value={form.material}
+              value={form?.material}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
@@ -226,14 +253,14 @@ export default function ProductForm() {
             <span className="text-sm">تعداد برگ</span>
             <input
               name="pages"
-              value={form.pages}
+              value={form?.pages}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
           </label>
 
           <ColorQuantitiesManager
-            colors={form.colors}
+            colors={form?.colors}
             value={form.colorQuantities}
             onChange={handleChange}
             name="colorQuantities"
@@ -243,16 +270,30 @@ export default function ProductForm() {
         <div className="flex items-center gap-3">
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            disabled={loading}
+            className={`px-4 py-2 text-white rounded ${
+              loading ? "bg-gray-400" : "bg-blue-600"
+            }`}
           >
-            ایجاد خروجی
+            {loading
+              ? "در حال ذخیره..."
+              : mode === "edit"
+              ? "ذخیره تغییرات"
+              : "افزودن محصول"}
           </button>
           <button
             type="button"
-            onClick={() => setForm(initialForm)}
+            onClick={() => setForm(initialData||initialForm)}
             className="px-3 py-2 border rounded"
           >
             ریست
+          </button>
+          <button
+            type="button"
+            onClick={() => setForm(initialData||initialForm)}
+            className="px-3 py-2 border rounded"
+          >
+            <Link href={"/admin/products"}>بازگشت</Link>
           </button>
         </div>
       </form>

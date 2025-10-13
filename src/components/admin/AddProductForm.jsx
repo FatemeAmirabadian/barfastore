@@ -1,0 +1,7 @@
+import React from 'react'
+import ProductForm from './ProductForm';
+
+export default function AddProductPage() {
+    return <ProductForm mode="create" />;
+  }
+  

@@ -81,7 +81,7 @@ export default function ProductListPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="flex flex-col-reverse gap-6">
         {products.map((p) => (
           <div
             key={p.id}
@@ -91,7 +91,7 @@ export default function ProductListPage() {
             <div className="flex flex-row justify-between items-center">
               <div className="grid grid-cols-1 gap-3 sm:ml-5">
                 <button className="p-1 bg-green-100 hover:bg-green-300 rounded-md text-xs sm:text-sm ">
-                  ویرایش محصول
+                  <Link href={`/admin/products/${p.slug}`}>ویرایش محصول</Link>
                 </button>
                 <button
                   className="p-1 bg-red-100 hover:bg-red-300 rounded-md text-xs sm:text-sm"
