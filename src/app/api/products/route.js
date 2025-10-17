@@ -1,71 +1,49 @@
 import { NextResponse } from 'next/server';
-import { products } from '../../../../data/products';
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
+
+// GET /api/products
 export async function GET() {
-  return NextResponse.json(products);
-}
-
-export async function POST(request) {
   try {
-    const newProduct = await request.json();
-    
-    // اضافه کردن محصول جدید
-    products.push({
-      ...newProduct,
-      createdAt: new Date().toISOString()
-    });
-
-    return NextResponse.json({ 
-      success: true, 
-      message: 'محصول با موفقیت اضافه شد',
-      product: newProduct 
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'خطا در اضافه کردن محصول' },
-      { status: 500 }
-    );
+    const products = await prisma.product.findMany({ orderBy: { id: "asc" } });
+    return NextResponse.json(products);
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-
-export async function DELETE(request) {
+// POST /api/products
+export async function POST(req) {
   try {
-    const { id } = await request.json();
-    const productToDelete = products.find(p => p.id === id);
-    
-    if (!productToDelete) {
-      return NextResponse.json(
-        { success: false, error: 'محصول یافت نشد' },
-        { status: 404 }
-      );
-    }
-    const filteredProducts = products.filter(p => p.id !== id);
-    products.length = 0;
-    products.push(...filteredProducts);
-    return NextResponse.json({ 
-      success: true, 
-      message: 'محصول با موفقیت حذف شد',
-      product: productToDelete 
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'خطا در حذف کردن محصول' },
-      { status: 500 }
-    );
+    const data = await req.json();
+    const product = await prisma.product.create({ data });
+    return NextResponse.json({ success: true, product });
+  } catch (err) {
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
 
-
+// PUT /api/products
 export async function PUT(req) {
   try {
-    const updatedProduct = await req.json();
-    const index = products.findIndex(p => p.id === updatedProduct.id);
-    if (index === -1) {
-      return NextResponse.json({ success: false, message: "محصول یافت نشد" }, { status: 404 });
-    }
-    products[index] = updatedProduct;
-    return NextResponse.json({ success: true, product: updatedProduct });
+    const data = await req.json();
+    const product = await prisma.product.update({
+      where: { id: data.id },
+      data
+    });
+    return NextResponse.json({ success: true, product });
+  } catch (err) {
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}
+
+// DELETE /api/products
+export async function DELETE(req) {
+  try {
+    const { id } = await req.json();
+    const product = await prisma.product.delete({ where: { id } });
+    return NextResponse.json({ success: true, product });
   } catch (err) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }

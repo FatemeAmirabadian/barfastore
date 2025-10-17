@@ -62,8 +62,8 @@ export default function ProductListPage() {
     return (
       <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
         <div className="text-center">
-          <div className="text-xl">⏳</div>
-          <div>در حال بارگذاری محصولات...</div>
+          <div className="text-xl animate-spin">⏳</div>
+          <div dir="rtl">در حال بارگذاری محصولات...</div>
         </div>
       </div>
     );

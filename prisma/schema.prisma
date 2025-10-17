@@ -1,0 +1,26 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://admin:admin123@localhost:5432/barfastore"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id              Int      @id @default(autoincrement())
+  name            String
+  slug            String   @unique
+  images          Json
+  colors          String[]
+  quantities      Int
+  price           Int
+  discountPercent Int?
+  discountEnd     DateTime?
+  createdAt       DateTime @default(now())
+  category        String?
+  description     String?
+  specs           Json?
+  comments        Json     @default("[]")
+  colorQuantities Json?
+}

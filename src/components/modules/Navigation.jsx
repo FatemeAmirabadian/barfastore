@@ -36,11 +36,11 @@ const Navigation = () => {
         <Link href="/cart">
         <div className="bg-white  hover:bg-gray-100 transition border border-gray-200 flex justify-around items-center py-2 px-4 rounded-xl ">
             {totalQuantity > 0 ? (
-              <span className="bg-gray-100 text-gray-800 rounded-full p-1 px-2">
+              <span className="bg-gray-100 text-gray-800 rounded-full text-sm px-2 py-1">
                 {totalQuantity}
               </span>
             ) : (
-              <span className="bg-gray-100 text-gray-800 rounded-full text-xs p-1">
+              <span className="bg-gray-100 text-gray-800 rounded-full text-sm px-2 py-1">
                 0
               </span>
             )}

@@ -64,11 +64,8 @@ export default function ProductForm({ mode, initialData = null }) {
   async function onSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    const id =
-      mode === "edit" && initialData ? initialData.id : crypto?.randomUUID?.();
 
     const product = {
-      id,
       name: form?.name,
       slug: form?.slug,
       images: form?.images,
@@ -76,15 +73,15 @@ export default function ProductForm({ mode, initialData = null }) {
       quantities: parseInt(form?.quantities) || 0,
       price: parseInt(form?.price) || 0,
       discountPercent: parseInt(form?.discountPercent) || 0,
-      discountEnd: form?.discountEnd || null,
+      discountEnd: form?.discountEnd ? new Date(form.discountEnd).toISOString() : null,
       createdAt: new Date().toISOString(),
       category: form?.category,
       description: form?.description,
       specs: {
-        وزن: parseInt(form?.weight) || 0,
-        ابعاد: form?.dimensions || 0,
+        وزن: parseInt(form?.weight) || null,
+        ابعاد: form?.dimensions || null,
         جنس: form?.material || null,
-        تعداد_برگ: parseInt(form?.pages) || 0,
+        تعداد_برگ: parseInt(form?.pages) || null,
       },
       comments: [],
       colorQuantities: form.colorQuantities,
