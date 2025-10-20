@@ -2,9 +2,9 @@ import ProductCard from "./modules/ProductCard";
 import PublicLayout from "./layouts/PublicLayout";
 import { getProducts } from "../../lib/helpers";
 
+
 export default async function ProductsPage() {
   const products = await getProducts();
-console.log(products);
   return (
     <PublicLayout>
       <div className="py-8 px-4 max-w-6xl mx-auto">

@@ -7,20 +7,30 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Category {
+  id      String    @id @default(uuid())
+  name    String
+  slug    String    @unique
+  image   String
+  url     String
+  products Product[]
+}
+
 model Product {
-  id              Int      @id @default(autoincrement())
+  id              String    @id @default(uuid())
   name            String
-  slug            String   @unique
-  images          Json
+  slug            String    @unique
+  images          Json?
   colors          String[]
-  quantities      Int
-  price           Int
+  quantities      Int?
+  price           Int?
   discountPercent Int?
   discountEnd     DateTime?
-  createdAt       DateTime @default(now())
-  category        String?
+  createdAt       DateTime  @default(now())
+  categoryId      String?
+  category        Category?  @relation(fields: [categoryId], references: [id])
   description     String?
   specs           Json?
-  comments        Json     @default("[]")
+  comments        Json      @default("[]")
   colorQuantities Json?
 }

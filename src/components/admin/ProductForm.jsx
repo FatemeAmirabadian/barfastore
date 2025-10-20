@@ -17,16 +17,21 @@ export default function ProductForm({ mode, initialData = null }) {
     colors: [],
     quantities: 0,
     price: 0,
-    discountPercent: "",
-    discountEnd: "",
-    category: "",
+    discountPercent: 0,
+    discountEnd: null,
+    createdAt: new Date().toISOString(),
+    categoryId: "",
     description: "",
-    weight: 0,
-    dimensions: "",
-    material: "",
-    pages: "",
+    specs: {
+      وزن: null,
+      ابعاد: "",
+      جنس: "",
+      تعداد_برگ: null,
+    },
+    comments: [],
     colorQuantities: {},
   };
+
   const [form, setForm] = useState(initialData || initialForm);
   const [loading, setLoading] = useState(false);
 
@@ -50,43 +55,34 @@ export default function ProductForm({ mode, initialData = null }) {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
-  function makeSlug(text) {
-    return text
-      .toString()
-      .normalize("NFKD")
-      .replace(/\p{Diacritic}/gu, "")
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-");
-  }
-
   async function onSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
     const product = {
-      name: form?.name,
-      slug: form?.slug,
-      images: form?.images,
-      colors: form?.colors,
-      quantities: parseInt(form?.quantities) || 0,
-      price: parseInt(form?.price) || 0,
-      discountPercent: parseInt(form?.discountPercent) || 0,
-      discountEnd: form?.discountEnd ? new Date(form.discountEnd).toISOString() : null,
+      name: form.name || "",
+      slug: form.slug || "",
+      images: form.images || [],
+      colors: form.colors || [],
+      quantities: form.quantities !== null ? parseInt(form.quantities) : 0,
+      price: form.price !== null ? parseInt(form.price) : 0,
+      discountPercent:
+        form.discountPercent !== null ? parseInt(form.discountPercent) : 0,
+      discountEnd: form.discountEnd
+        ? new Date(form.discountEnd).toISOString()
+        : null,
       createdAt: new Date().toISOString(),
-      category: form?.category,
-      description: form?.description,
+      categoryId: form.categoryId || "",
+      description: form.description || "",
       specs: {
-        وزن: parseInt(form?.weight) || null,
-        ابعاد: form?.dimensions || null,
-        جنس: form?.material || null,
-        تعداد_برگ: parseInt(form?.pages) || null,
+        وزن: form.weight !== null ? parseInt(form.weight) : null,
+        ابعاد: form.dimensions || "",
+        جنس: form.material || "",
+        تعداد_برگ: form.pages !== null ? parseInt(form.pages) : null,
       },
       comments: [],
-      colorQuantities: form.colorQuantities,
+      colorQuantities: form.colorQuantities || {},
     };
-
     try {
       let response;
       if (mode === "create") {
@@ -99,10 +95,18 @@ export default function ProductForm({ mode, initialData = null }) {
         response = await fetch("/api/products", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(product),
+          body: JSON.stringify({
+            ...product,
+            id: initialData?.id,
+          }),
         });
       }
-
+      if (!response.ok) {
+        console.log("Response status:", response.status);
+        const text = await response.text();
+        console.log("Raw response:", text);
+        throw new Error(text || "خطای سرور");
+      }
       const result = await response.json();
 
       if (result.success) {
@@ -203,7 +207,7 @@ export default function ProductForm({ mode, initialData = null }) {
             <span className="text-sm">پایان تخفیف (تاریخ)</span>
             <input
               name="discountEnd"
-              value={form?.discountEnd}
+              value={form?.discountEnd ?? ""}
               onChange={handleChange}
               type="date"
               className="mt-1 p-2 border rounded"
@@ -211,16 +215,16 @@ export default function ProductForm({ mode, initialData = null }) {
           </label>
 
           <CategoryManager
-            value={form?.category}
+            value={form?.categoryId ?? ""}
+            name="categoryId"
             onChange={handleChange}
-            name="category"
           />
 
           <label className="flex flex-col">
             <span className="text-sm">وزن (مثال: 210 گرم)</span>
             <input
               name="weight"
-              value={form?.weight}
+              value={form?.weight ?? ""}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
@@ -230,7 +234,7 @@ export default function ProductForm({ mode, initialData = null }) {
             <span className="text-sm">ابعاد (مثال: 21x29 سانتی‌متر)</span>
             <input
               name="dimensions"
-              value={form?.dimensions}
+              value={form?.dimensions ?? ""}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
@@ -240,7 +244,7 @@ export default function ProductForm({ mode, initialData = null }) {
             <span className="text-sm">جنس</span>
             <input
               name="material"
-              value={form?.material}
+              value={form?.material ?? ""}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
@@ -250,7 +254,7 @@ export default function ProductForm({ mode, initialData = null }) {
             <span className="text-sm">تعداد برگ</span>
             <input
               name="pages"
-              value={form?.pages}
+              value={form?.pages ?? ""}
               onChange={handleChange}
               className="mt-1 p-2 border rounded"
             />
@@ -280,18 +284,17 @@ export default function ProductForm({ mode, initialData = null }) {
           </button>
           <button
             type="button"
-            onClick={() => setForm(initialData||initialForm)}
+            onClick={() => setForm(initialData || initialForm)}
             className="px-3 py-2 border rounded"
           >
             ریست
           </button>
-          <button
-            type="button"
-            onClick={() => setForm(initialData||initialForm)}
-            className="px-3 py-2 border rounded"
+          <Link
+            href="/admin/products"
+            className="px-3 py-2 border rounded inline-block text-center"
           >
-            <Link href={"/admin/products"}>بازگشت</Link>
-          </button>
+            بازگشت
+          </Link>
         </div>
       </form>
     </div>

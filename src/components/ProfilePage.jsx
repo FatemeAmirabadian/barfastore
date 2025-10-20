@@ -8,13 +8,12 @@ export default function ProfilePage() {
     name: "فاطمه امیر",
     wallet: 120000,
     profileImage: "/images/icons/logo.svg",
+    address :"..."
   };
 
   const menuItems = [
-    { label: "اطلاعات کاربری" },
     { label: "سفارش‌ها" },
     { label: "موردعلاقه‌ها" },
-    { label: "آدرس‌ها" },
     { label: "پشتیبانی" },
     { label: "خروج از حساب", isLogout: true },
   ];
@@ -36,7 +35,8 @@ export default function ProfilePage() {
 
         {/* اسم و کیف پول */}
         <h2 className="text-lg font-semibold">{user.name}</h2>
-        <p className="text-gray-500">موجودی کیف پول: {user.wallet.toLocaleString()} تومان</p>
+        <p className="text-gray-500">موجودی کیف پول {user.wallet.toLocaleString()} تومان</p>
+        <p className="text-gray-500" dir="rtl"> آدرس {user.address}</p>
 
         {/* دکمه افزایش اعتبار */}
         <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-md transition">

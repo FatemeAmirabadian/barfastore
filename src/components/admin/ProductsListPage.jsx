@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { formatPriceToFarsi } from "../../../lib/helpers";
+import { formatPriceToFarsi, getCategories } from "../../../lib/helpers";
 
 export default function ProductListPage() {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   // دریافت محصولات هنگام لود کامپوننت
   useEffect(() => {
@@ -17,8 +18,10 @@ export default function ProductListPage() {
     try {
       setLoading(true);
       const response = await fetch("/api/products");
+      const categories = await getCategories();
       if (response.ok) {
         const result = await response.json();
+        setCategories(categories);
         setProducts(result);
       } else {
         alert("❌ خطا در دریافت محصولات");
@@ -30,7 +33,6 @@ export default function ProductListPage() {
       setLoading(false);
     }
   }
-
   async function deleteProduct(productId) {
     if (!confirm("آیا از حذف این محصول مطمئن هستید؟")) return;
 
@@ -56,6 +58,11 @@ export default function ProductListPage() {
       alert("❌ خطا در حذف محصول");
       console.error(error);
     }
+  }
+
+  function getCategoryNameByID(categoryId) {
+    const category = categories.find((c) => c.id === categoryId);
+    return category ? category.name : "دسته بندی";
   }
 
   if (loading) {
@@ -109,16 +116,16 @@ export default function ProductListPage() {
               {/* تصویر اصلی */}
               {p.images && p.images.length > 0 && (
                 <div className="flex gap-1">
-                  <h2 className="font-semibold text-sm text-right mt-5">
-                    {p.name}
-                  </h2>
                   <img
-                    src={p.images[0].url}
+                    src={p.images[0]?.url}
                     alt={p.name}
                     className="w-[15vw] h-[15vh] object-cover"
                   />
                 </div>
               )}
+              <h2 className="font-semibold text-sm text-right mt-5">
+                {p.name}
+              </h2>
             </div>
             {/* اطلاعات محصول */}
             <div className="p-4 flex flex-row-reverse justify-start items-center gap-5 sm:gap-20 text-right">
@@ -156,6 +163,7 @@ export default function ProductListPage() {
                 ) : null}
               </h2>
             </div>
+            <h3>{getCategoryNameByID(p.categoryId) || "دسته بندی"}</h3>
             {/* رنگ‌ها */}
             {p.colors && p.colors.length > 0 && (
               <div className="flex flex-row-reverse flex-wrap gap-1 mt-auto">

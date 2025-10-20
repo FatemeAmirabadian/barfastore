@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['via.placeholder.com'], // هر دامنه‌ای که تصویر ازش میاد
+    domains: ['via.placeholder.com'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.arvanstorage.ir",
+      },
+    ],
   },
 };
 

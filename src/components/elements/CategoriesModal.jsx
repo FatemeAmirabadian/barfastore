@@ -1,10 +1,20 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import Link from "next/link";
-import { categories } from "../../../data/categories";
+import { getCategories } from "../../../lib/helpers";
 
 const CategoriesModal = ({ isOpen, onClose }) => {
+  const [categories, setCategories] = useState([]);
+  
+  useEffect(() => {
+    async function fetchCategories() {
+      const data = await getCategories();
+      setCategories(data);
+    }
+    fetchCategories();
+  }, []);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} height="1/2">
       <Link href={"/categories"}>

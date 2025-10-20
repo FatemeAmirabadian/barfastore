@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { categories } from "../../data/categories";
+import { getCategories } from "../../lib/helpers";
 
-export default function Categories() {
+export default async function Categories() {
+  const categories = await getCategories()
   return (
     <div className="grid grid-cols-4 gap-6 px-2">
       {categories.map((cat) => (
@@ -24,7 +25,8 @@ export default function Categories() {
   );
 }
 
-export function CategoriesSlice() {
+export async function CategoriesSlice() {
+  const categories = await getCategories()
   return (
     <div className="grid grid-cols-4 gap-6 px-2">
       {categories.slice(0, 8).map((cat) => (
