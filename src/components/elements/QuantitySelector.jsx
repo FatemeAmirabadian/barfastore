@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { formatPriceToFarsi } from "../../../lib/helpers";
+import { formatPriceToFarsi } from "../../../lib/utils";
 
 export default function QuantitySelector({ quantity, onIncrease, onDecrease }) {
   return (

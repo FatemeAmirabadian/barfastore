@@ -1,6 +1,6 @@
 "use client";
 import ColorSelector from "../elements/ColorSelector";
-import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
+import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/utils";
 import FavoriteButton from "../elements/FavoriteButton";
 import { useCartStore } from "../../../store/cartStore";
 import { FailAlrt, SuccessAlrt } from "../elements/Alerts";

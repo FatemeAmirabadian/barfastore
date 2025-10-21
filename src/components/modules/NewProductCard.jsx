@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
+import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/utils";
 
 export default function NewProductCard({ product }) {
   const hasDiscount =

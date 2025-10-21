@@ -1,18 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = "postgresql://admin:admin123@localhost:5432/barfastore"
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model Category {
-  id      String    @id @default(uuid())
-  name    String
-  slug    String    @unique
-  image   String
-  url     String
+  id       String    @id @default(uuid())
+  name     String
+  slug     String    @unique
+  image    String
+  url      String
   products Product[]
 }
 
@@ -27,10 +27,10 @@ model Product {
   discountPercent Int?
   discountEnd     DateTime?
   createdAt       DateTime  @default(now())
-  categoryId      String?
-  category        Category?  @relation(fields: [categoryId], references: [id])
   description     String?
   specs           Json?
   comments        Json      @default("[]")
   colorQuantities Json?
+  categoryId      String?
+  category        Category? @relation(fields: [categoryId], references: [id])
 }

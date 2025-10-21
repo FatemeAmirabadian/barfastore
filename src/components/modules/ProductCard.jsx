@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/helpers";
+import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/utils";
 import Image from "next/image";
 
 export default function ProductCard({ product }) {

@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { formatPriceToFarsi, getCategories } from "../../../lib/helpers";
+import {  getCategories } from "../../../lib/helpers";
+import {formatPriceToFarsi} from "../../../lib/utils"
 
 export default function ProductListPage() {
   const [loading, setLoading] = useState(false);

@@ -1,11 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useCartStore } from "../../../store/cartStore";
-import {
-  formatPriceToFarsi,
-  getDiscountedPrice,
-  getProducts,
-} from "../../../lib/helpers";
+import { getProducts } from "../../../lib/helpers";
+import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/utils";
 import Image from "next/image";
 import QuantitySelector from "../elements/QuantitySelector";
 import { SlTrash } from "react-icons/sl";
@@ -51,7 +48,9 @@ function CartProductCard() {
             }))
           )
           .map((product, index) => {
-            const productData = products.find((p) => p.id === product.productId);
+            const productData = products.find(
+              (p) => p.id === product.productId
+            );
             if (!productData) return null;
 
             const hasDiscount = productData.discountPercent > 0;

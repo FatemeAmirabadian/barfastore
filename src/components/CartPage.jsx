@@ -1,7 +1,7 @@
 "use client";
 import SectionCard from "./modules/SectionCard";
 import PublicLayout from "./layouts/PublicLayout";
-import { formatPriceToFarsi } from "../../lib/helpers";
+import { formatPriceToFarsi } from "../../lib/utils";
 import CartProductCard from "./modules/CartProductCard";
 import { useCartStore } from "../../store/cartStore";
 
