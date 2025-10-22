@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useGalleryStore } from "../../../store/galleryStore";
 import ImageGalleryModal from "../elements/ImageGalleryModal";
 
@@ -13,7 +12,7 @@ export default function ProductImages({ images }) {
         <img
           src={images[0]?.url || "https://via.placeholder.com/150"}
           alt="Main image"
-          className="w-full h-full object-cover rounded-xl cursor-pointer"
+          className="h-full w-3/4 object-cover object-center rounded-xl cursor-pointer"
           onClick={() => openModal(images, 0)}
         />
       </div>
@@ -26,11 +25,10 @@ export default function ProductImages({ images }) {
             className="relative w-full aspect-square rounded-xl cursor-pointer"
             onClick={() => openModal(images, idx + 1)}
           >
-            <Image
+            <img
               src={img.url}
               alt={`Image ${idx + 2}`}
-              fill
-              className="object-cover rounded-xl"
+              className="h-full w-3/4 object-fill rounded-xl"
             />
           </div>
         ))}

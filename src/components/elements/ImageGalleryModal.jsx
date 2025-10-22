@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useGalleryStore } from "../../../store/galleryStore";
 import { SlClose } from "react-icons/sl";
 
@@ -20,11 +19,10 @@ export default function ImageGalleryModal() {
       <div className="relative max-w-3xl w-full mx-4">
         {/* عکس بزرگ */}
         <div className="relative w-full h-[70vh] rounded-xl overflow-hidden">
-          <Image
+          <img
             src={images[currentIndex].url}
             alt={`Image ${currentIndex + 1}`}
-            fill
-            className="object-contain rounded-xl"
+            className="h-full w-full object-fill object-center rounded-xl m-auto"
           />
         </div>
 

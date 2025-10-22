@@ -26,7 +26,7 @@ const CategoriesModal = ({ isOpen, onClose }) => {
         {categories.map((category) => (
           <li key={category.id}>
             <Link
-              href={`/${category.url}`}
+              href={`/categories/${category.slug}`}
               onClick={onClose}
               className="block p-2 border rounded hover:bg-gray-100 transition cursor-pointer"
             >

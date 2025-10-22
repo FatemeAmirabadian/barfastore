@@ -7,8 +7,11 @@ const page = () => {
       <div className="bg-white text-center p-1 mb-2 rounded-md">
         <Link href={"/admin/products"}>see products list</Link>
       </div>
-      <div className="bg-white text-center p-1 rounded-md">
+      <div className="bg-white text-center p-1 mb-2 rounded-md">
         <Link href={"/admin/categories"}>see categories list</Link>
+      </div>
+      <div className="bg-white text-center p-1 mb-2 rounded-md">
+        <Link href={"/admin/articles"}>see articles list</Link>
       </div>
     </div>
   );

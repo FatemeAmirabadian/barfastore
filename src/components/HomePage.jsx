@@ -6,7 +6,7 @@ import SectionCard from "./modules/SectionCard";
 import Trends from "./modules/Trends";
 import { CategoriesSlice } from "./CategoriesPage";
 import NewDiscounts from "./modules/NewDiscounts";
-import NewArticles from "./modules/NewAricles";
+import NewArticles from "./modules/NewArticles";
 
 const sections = [
   { Component: Trends, useCard: true },

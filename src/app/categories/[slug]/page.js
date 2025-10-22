@@ -9,13 +9,11 @@ const page = async ({ params }) => {
   const category = categories.find((cat) => cat.slug === slug);
   if (!category) return <div>دسته یافت نشد</div>;
   const products = await getProducts();
-
-  // فیلتر محصولات مرتبط با دسته
-  const categoryProducts = products.filter((p) => p.category === slug);
+  const categoryProducts = products.filter((p) => p.categoryId === category.id);
 
   return (
     <SectionCard>
-      <h1 className="text-2xl font-bold mb-5 text-center">{category.name}</h1>
+      <h1 className="text-2xl font-bold mb-5 text-center">{categoryProducts.name}</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 text-right">
         {categoryProducts.map((product, idx) => (
           <ProductCard key={idx} product={product} />

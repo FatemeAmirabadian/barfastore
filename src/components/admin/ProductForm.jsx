@@ -191,7 +191,9 @@ export default function ProductForm({ mode, initialData = null }) {
 
           <ImagesManager
             value={form.images}
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+            }
             name="images"
           />
 

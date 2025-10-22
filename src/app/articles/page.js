@@ -1,4 +1,4 @@
-import ArticlesPage from "@/components/modules/ArticlesPage";
+import ArticlesPage from "@/components/ArticlesPage";
 import React from "react";
 
 const page = () => {

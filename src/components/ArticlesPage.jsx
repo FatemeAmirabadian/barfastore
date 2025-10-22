@@ -1,7 +1,8 @@
-import { articles } from "../../../data/articles";
-import { ArticleCard } from "./NewAricles";
+import { getArticles } from "../../lib/helpers";
+import { ArticleCard } from "./modules/NewArticles";
 
-export default function ArticlesPage() {
+export default async function ArticlesPage() {
+  const articles = await getArticles();
   return (
     <div className="p-8 max-w-3xl mx-auto">
       <p className="text-xl font-semibold text-center mb-5">مقالات</p>
