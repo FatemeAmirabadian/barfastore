@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useGalleryStore} from "../../../store/galleryStore"
+import { useGalleryStore } from "../../../store/galleryStore";
 import ImageGalleryModal from "../elements/ImageGalleryModal";
 
 export default function ProductImages({ images }) {
@@ -10,11 +10,10 @@ export default function ProductImages({ images }) {
     <div>
       {/* عکس اصلی */}
       <div className="w-full h-[50vh] mb-4 relative">
-        <Image
+        <img
           src={images[0]?.url || "https://via.placeholder.com/150"}
           alt="Main image"
-          fill
-          className="object-cover rounded-xl cursor-pointer"
+          className="w-full h-full object-cover rounded-xl cursor-pointer"
           onClick={() => openModal(images, 0)}
         />
       </div>

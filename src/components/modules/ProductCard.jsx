@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/utils";
-import Image from "next/image";
 
 export default function ProductCard({ product }) {
-  const imageUrl =
-    product.images?.[0]?.url || "https://via.placeholder.com/150";
   const hasDiscount =
     product.discountPercent > 0 &&
     (!product.discountEnd || new Date(product.discountEnd) >= new Date());
@@ -14,11 +11,10 @@ export default function ProductCard({ product }) {
       <div className="overflow-hidden hover:shadow-lg transition flex flex-col rounded-md h-[50vh] sm:h-[55vh] md:h-[60vh]">
         {/* بلوک عکس - 90٪ کارت */}
         <div className="relative w-full h-4/5">
-          <Image
-            src={imageUrl}
+          <img
+            src={product.images[0]?.url}
             alt={product.name}
-            fill
-            className="object-cover rounded-xl"
+            className="w-full h-full object-cover rounded-xl"
           />
           {/* بج درصد تخفیف */}
           {hasDiscount && (

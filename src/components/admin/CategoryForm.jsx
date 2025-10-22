@@ -14,6 +14,7 @@ export default function CategoryForm({ mode, initialData = null }) {
   };
   const [form, setForm] = useState(initialData || initialForm);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -24,34 +25,40 @@ export default function CategoryForm({ mode, initialData = null }) {
     }
   }, [initialData]);
 
-  // 🔹 تبدیل فایل به رشته Base64
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  }
-
   async function handleChange(e) {
-    const { name, value, files } = e.target;
-
-    // اگر ورودی فایل بود
+    const { name, files, value } = e.target;
+  
     if (name === "image" && files && files[0]) {
+      setUploading(true); // شروع آپلود
+      const formData = new FormData();
+      formData.append("file", files[0]);
+  
       try {
-        const base64String = await fileToBase64(files[0]);
-        setForm((prev) => ({ ...prev, image: base64String }));
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        if (data.success) {
+          setForm((prev) => ({ ...prev, image: data.url }));
+        } else {
+          alert("آپلود عکس موفقیت آمیز نبود");
+        }
       } catch (err) {
-        console.error("Error converting file to Base64:", err);
+        console.error("Upload error:", err);
+      }finally {
+        setUploading(false); // پایان آپلود
       }
     } else {
       setForm((prev) => ({ ...prev, [name]: value }));
     }
   }
-
   async function onSubmit(e) {
     e.preventDefault();
+    if (uploading) {
+      alert("لطفا صبر کنید تا آپلود عکس تمام شود");
+      return;
+    }
     setLoading(true);
 
     const category = {
@@ -94,8 +101,7 @@ export default function CategoryForm({ mode, initialData = null }) {
       alert("❌ خطا در ارسال درخواست");
       console.error(error);
     } finally {
-      setLoading(false);
-    }
+      setLoading(false);    }
   }
 
   return (
@@ -156,9 +162,9 @@ export default function CategoryForm({ mode, initialData = null }) {
         <div className="flex items-center gap-3">
           <button
             type="submit"
-            disabled={loading}
-            className={`px-2 py-1 text-white rounded ${
-              loading ? "bg-gray-400" : "bg-blue-600"
+            disabled={loading || uploading}
+            className={`px-4 py-2 text-white rounded ${
+              loading || uploading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
             {loading

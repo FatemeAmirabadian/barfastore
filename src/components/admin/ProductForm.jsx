@@ -34,6 +34,7 @@ export default function ProductForm({ mode, initialData = null }) {
 
   const [form, setForm] = useState(initialData || initialForm);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -57,12 +58,42 @@ export default function ProductForm({ mode, initialData = null }) {
 
   async function onSubmit(e) {
     e.preventDefault();
+    if (uploading) return;
     setLoading(true);
+
+    let uploadedImageUrls = [];
+
+    async function uploadImagesToServer(files) {
+      const formData = new FormData();
+      files.forEach((file) => formData.append("files", file));
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      return Array.isArray(data.urls) ? data.urls : [];
+    }
+
+    const newFiles = form.images
+      .filter((img) => img.file)
+      .map((img) => img.file);
+
+    if (newFiles.length > 0) {
+      setUploading(true);
+      const uploadedUrls = await uploadImagesToServer(newFiles);
+      uploadedImageUrls = uploadedUrls;
+      setUploading(false);
+    }
+
+    const allImageUrls = [
+      ...form.images.filter((img) => !img.file).map((img) => img.url),
+      ...uploadedImageUrls,
+    ];
 
     const product = {
       name: form.name || "",
       slug: form.slug || "",
-      images: form.images || [],
+      images: allImageUrls.map((url) => ({ url })) || [],
       colors: form.colors || [],
       quantities: form.quantities !== null ? parseInt(form.quantities) : 0,
       price: form.price !== null ? parseInt(form.price) : 0,
@@ -271,12 +302,12 @@ export default function ProductForm({ mode, initialData = null }) {
         <div className="flex items-center gap-3">
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || uploading}
             className={`px-4 py-2 text-white rounded ${
-              loading ? "bg-gray-400" : "bg-blue-600"
+              loading || uploading ? "bg-gray-400" : "bg-blue-600"
             }`}
           >
-            {loading
+            {loading || uploading
               ? "در حال ذخیره..."
               : mode === "edit"
               ? "ذخیره تغییرات"

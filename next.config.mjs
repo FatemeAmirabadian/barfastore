@@ -1,14 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['via.placeholder.com'],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.arvanstorage.ir",
+        hostname: "barfastore.s3.ir-thr-at1.arvanstorage.ir",
+        port: "",
+        pathname: "/**",
       },
     ],
   },
+  
 };
 
 export default nextConfig;

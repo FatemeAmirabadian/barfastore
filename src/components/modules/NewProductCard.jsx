@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/utils";
 
@@ -14,10 +13,10 @@ export default function NewProductCard({ product }) {
       <div className="overflow-hidden hover:shadow-lg transition flex flex-col rounded-md h-[50vh] sm:h-[55vh] md:h-[60vh] flex-shrink-0 w-[180px] md:w-auto">
         {/* بلوک عکس */}
         <div className="relative w-full h-4/5">
-          <Image
+          <img
             src={product.images?.[0]?.url || "/placeholder.png"}
             alt={product.name}
-            fill
+            // fill
             sizes="(max-width: 768px) 180px, 20vw"
             className="object-cover rounded-xl"
           />

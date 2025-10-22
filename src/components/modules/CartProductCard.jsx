@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useCartStore } from "../../../store/cartStore";
 import { getProducts } from "../../../lib/helpers";
 import { formatPriceToFarsi, getDiscountedPrice } from "../../../lib/utils";
-import Image from "next/image";
 import QuantitySelector from "../elements/QuantitySelector";
 import { SlTrash } from "react-icons/sl";
 import Link from "next/link";
@@ -119,7 +118,7 @@ function CartProductCard() {
                   </div>
                   {product.image && (
                     <Link href={`/products/${productSlug}`}>
-                      <Image
+                      <img
                         src={product.image}
                         alt={product.name}
                         width={50}
