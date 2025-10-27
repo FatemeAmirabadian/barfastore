@@ -12,6 +12,7 @@ export default function CategoriesListPage() {
     getCategories();
   }, []);
 
+
   async function getCategories() {
     try {
       setLoading(true);

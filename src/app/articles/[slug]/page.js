@@ -1,10 +1,11 @@
 import React from "react";
-import { articles } from "../../../../data/articles";
 import SectionCard from "../../../components/modules/SectionCard";
 import Image from "next/image";
+import { getArticles } from "../../../../lib/helpers";
 
-export default function page({ params }) {
+export default async function page({ params }) {
   const { slug } = params;
+  const articles = await getArticles()
   const article = articles.find((art) => art.slug === slug);
 
   if (!article)

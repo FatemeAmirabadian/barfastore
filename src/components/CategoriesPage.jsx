@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { getCategories } from "../../lib/helpers";
 
-export default async function Categories() {
+export default async function CategoriesPage() {
   const categories = await getCategories();
   return (
     <div className="grid grid-cols-4 gap-6 px-2">
       {categories.map((cat) => (
-        <Link key={cat.name} href={cat.url}>
+        <Link key={cat.name} href={`/categories/${cat.slug}`}>
           <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg flex flex-col h-full p-1">
             <div className="w-full aspect-[3/4]">
               {cat.image ? (

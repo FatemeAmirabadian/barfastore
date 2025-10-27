@@ -1,10 +1,13 @@
 import ProductCard from "./modules/ProductCard";
 import PublicLayout from "./layouts/PublicLayout";
-import { getProducts } from "../../lib/helpers";
+import { getCategories, getProducts } from "../../lib/helpers";
 
 
 export default async function ProductsPage() {
   const products = await getProducts();
+  const categories = await getCategories();
+  const categoryId = categories.map
+  console.log(categories);
   return (
     <PublicLayout>
       <div className="py-8 px-4 max-w-6xl mx-auto">
